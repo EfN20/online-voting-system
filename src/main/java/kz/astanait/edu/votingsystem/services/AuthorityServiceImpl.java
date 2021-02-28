@@ -1,6 +1,6 @@
 package kz.astanait.edu.votingsystem.services;
 
-import kz.astanait.edu.votingsystem.exceptions.UserNotFoundException;
+import kz.astanait.edu.votingsystem.exceptions.AuthorityNotFoundException;
 import kz.astanait.edu.votingsystem.models.Authority;
 import kz.astanait.edu.votingsystem.repositories.AuthorityRepository;
 import kz.astanait.edu.votingsystem.services.interfaces.AuthorityService;
@@ -20,8 +20,8 @@ public class AuthorityServiceImpl implements AuthorityService {
     }
 
     @Override
-    public Authority findById(Long id) throws UserNotFoundException {
-        return authorityRepository.findById(id).orElseThrow(UserNotFoundException::new);
+    public Authority findById(Long id) throws AuthorityNotFoundException {
+        return authorityRepository.findById(id).orElseThrow(AuthorityNotFoundException::new);
     }
 
     @Override

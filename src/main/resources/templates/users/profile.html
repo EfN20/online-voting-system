@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap/bootstrap.min.css}">
+</head>
+<body>
+    <div th:text="|First name: ${user.getFirstName()}|">First name</div>
+    <div th:text="|Last name: ${user.getLastName()}|">Last name</div>
+    <div th:text="|Nickname: ${user.getNickname()}|">Nickname</div>
+    <div th:text="|Email: ${user.getEmail()}|">Email</div>
+    <div th:text="|Age: ${user.getAge()}|">Age</div>
+    <a th:href="@{/users/edit}">Update profile</a>
+</body>
+</html>

@@ -17,6 +17,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 @Data
@@ -39,14 +45,47 @@ public class User {
     private Long id;
 
     @NonNull
-    @Column(name = "nickname", unique = true)
+    @NotBlank(message = "First name should not be empty")
+    @Size(max = 30, message = "Maximum possible length for First Name is 30 characters")
+    @Column(name = "first_name")
+    private String firstName;
+
+    @NonNull
+    @NotBlank(message = "Last name should not be empty")
+    @Size(max = 30, message = "Max string length for First Name is 30")
+    @Column(name = "last_name")
+    private String lastName;
+
+    @NonNull
+    @NotBlank(message = "Nickname should not be empty")
+    @Size(max = 30, message = "Max string length for Last Name is 30")
+    @Column(name = "nickname", unique = true, updatable = false)
     private String nickname;
 
     @NonNull
+    @Pattern(regexp=".+@.+\\..+", message = "Email should be valid")
+    @Size(max = 30, message = "Max string length for Nickname is 30")
     @Column(name = "email", unique = true)
     private String email;
 
     @NonNull
+    @NotNull
+    @ManyToOne(
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.MERGE
+    )
+    @JoinColumn(name = "group_id")
+    private Group group;
+
+    @NonNull
+    @NotNull(message = "Age should not be empty")
+    @Max(value = 100, message = "Age should not be greater than 100")
+    @Min(value = 16, message = "You are underage (ЩЕГОЛ)")
+    @Column(name = "age")
+    private int age;
+
+    @NonNull
+    @NotBlank(message = "Password should not be empty")
     @Column(name = "password")
     private String password;
 
@@ -58,4 +97,5 @@ public class User {
     )
     @JoinColumn(name = "role_id")
     private Role role;
+
 }

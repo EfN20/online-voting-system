@@ -48,4 +48,9 @@ public class RoleServiceImpl implements RoleService {
     public List<Role> findAll() {
         return roleRepository.findAll();
     }
+
+    @Override
+    public Role findRoleByName(String name) throws RoleNotFoundException {
+        return roleRepository.findRoleByName(name).orElseThrow(RoleNotFoundException::new);
+    }
 }

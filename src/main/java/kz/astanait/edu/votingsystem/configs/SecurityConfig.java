@@ -30,6 +30,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/registration").permitAll()
+                .antMatchers("/users/registration").permitAll()
                 .antMatchers("/users/**").hasAuthority("users:update-self-password")
                 .antMatchers("/api/**").permitAll()
                 .antMatchers("/**").authenticated()

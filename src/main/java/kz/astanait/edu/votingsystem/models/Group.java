@@ -1,50 +1,40 @@
 package kz.astanait.edu.votingsystem.models;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.Table;
 
 @Entity
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
-@Table(name = "authorities")
-public class Authority {
+@Table(name = "groups")
+public class Group {
 
     @Id
     @SequenceGenerator(
-            name = "authority_sequence",
-            sequenceName = "authority_sequence",
+            name = "group_sequence",
+            sequenceName = "group_sequence",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "authority_sequence"
+            generator = "group_sequence"
     )
+    @Column(name = "id")
     private Long id;
 
     @NonNull
+    @Column(name = "name")
     private String name;
 
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    @ManyToMany(
-            mappedBy = "authorities",
-            fetch = FetchType.EAGER
-    )
-    private Set<Role> roles = new HashSet<>();
 }

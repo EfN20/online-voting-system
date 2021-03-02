@@ -36,5 +36,4 @@ public class Group {
     @NonNull
     @Column(name = "name")
     private String name;
-
 }

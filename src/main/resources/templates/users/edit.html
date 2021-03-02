@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Edit profile</title>
+    <title>Registration page</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap/bootstrap.min.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
 </head>
@@ -11,8 +11,12 @@
     <form th:method="PUT" th:action="@{/users/edit}" th:object="${user}">
         <h1 class="h3 mb-3 fw-normal">Enter new details</h1>
 
-        <div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
-            <p class="error-msg" th:each="err : ${#fields.errors('*')}" th:text="${err}">Error</p>
+        <div th:if="${param.error}" class="alert alert-danger">
+            <p class="error-msg" th:each="err : ${errors}" th:text="${err.getMessage()}">Error</p>
+        </div>
+
+        <div th:if="${param.success}" class="alert alert-success">
+            Your details have been successfully changed!
         </div>
 
         <label for="firstName" class="visually-hidden">First Name</label>
@@ -21,21 +25,16 @@
         <label for="lastName" class="visually-hidden">Last name</label>
         <input type="text" id="lastName" name="lastName" th:field="*{lastName}" class="form-control" placeholder="Last name" required>
 
-        <label for="email" class="visually-hidden">Email</label>
-        <input type="email" id="email" name="email" th:field="*{email}" class="form-control" placeholder="Email" required>
-
         <label for="group" class="visually-hidden">Group</label>
         <select id="group" name="group" th:field="*{group}" class="form-control" required>
+            <option value="">Choose your group</option>
             <option th:each="group : ${groups}" th:value="${group.getId()}" th:text="${group.getName()}">Group name</option>
         </select>
 
         <label for="age" class="visually-hidden">Age</label>
         <input type="number" id="age" name="age" th:field="*{age}" class="form-control" placeholder="Age" required>
 
-        <label for="password" class="visually-hidden">Password</label>
-        <input type="password" id="password" name="password" th:field="*{password}" th:value="${user.getPassword()}" class="form-control" placeholder="Password" required>
-
-        <button class="w-100 btn btn-lg btn-success" type="submit">Update</button>
+        <button class="w-100 btn btn-lg btn-success" type="submit">Sign up</button>
     </form>
 </main>
 </body>

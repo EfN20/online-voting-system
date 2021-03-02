@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -31,8 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/registration").permitAll()
-                .antMatchers("/users/registration").permitAll()
-                .antMatchers("/users/**").hasAuthority("users:update-self-password")
+                .antMatchers(HttpMethod.POST, "/users").permitAll()
+                .antMatchers("/users/**").hasAuthority("users:update-self-profile")
                 .antMatchers("/api/**").permitAll()
                 .antMatchers("/**").authenticated()
                 .and()

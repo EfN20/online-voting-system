@@ -20,6 +20,11 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public Role findRoleByName(String name) throws RoleNotFoundException {
+        return roleRepository.findRoleByName(name).orElseThrow(RoleNotFoundException::new);
+    }
+
+    @Override
     public Role findById(Long id) throws RoleNotFoundException {
         return roleRepository.findById(id).orElseThrow(RoleNotFoundException::new);
     }
@@ -47,10 +52,5 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Role> findAll() {
         return roleRepository.findAll();
-    }
-
-    @Override
-    public Role findRoleByName(String name) throws RoleNotFoundException {
-        return roleRepository.findRoleByName(name).orElseThrow(RoleNotFoundException::new);
     }
 }

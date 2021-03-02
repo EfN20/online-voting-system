@@ -1,8 +1,10 @@
 package kz.astanait.edu.votingsystem.services;
 
+import kz.astanait.edu.votingsystem.exceptions.GroupNotFoundException;
 import kz.astanait.edu.votingsystem.exceptions.UserNotFoundException;
 import kz.astanait.edu.votingsystem.models.Authority;
 import kz.astanait.edu.votingsystem.models.User;
+import kz.astanait.edu.votingsystem.repositories.GroupRepository;
 import kz.astanait.edu.votingsystem.repositories.UserRepository;
 import kz.astanait.edu.votingsystem.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -21,10 +24,12 @@ import java.util.Set;
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
+    private final GroupRepository groupRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, GroupRepository groupRepository) {
         this.userRepository = userRepository;
+        this.groupRepository = groupRepository;
     }
 
     @Override
@@ -47,6 +52,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User findUserByNickname(String nickname) throws UserNotFoundException {
         return userRepository.findUserByNickname(nickname).orElseThrow(UserNotFoundException::new);
+    }
+
+    @Override
+    @Transactional
+    public void updateUserDetails(String nickname, String firstName, String lastName, Long group, Integer age) throws UserNotFoundException, GroupNotFoundException {
+        User user = userRepository.findUserByNickname(nickname).orElseThrow(UserNotFoundException::new);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setGroup(groupRepository.findById(group).orElseThrow(GroupNotFoundException::new));
+        user.setAge(age);
     }
 
     @Override

@@ -25,7 +25,7 @@ public class VotingSystemApplication {
 	public CommandLineRunner commandLineRunner(UserRepository userRepository, RoleRepository roleRepository, GroupRepository groupRepository) {
 		return args -> {
 			Authority authority1 = new Authority("users:create");
-			Authority authority2 = new Authority("users:update-self-password");
+			Authority authority2 = new Authority("users:update-self-profile");
 
 			Role adminRole = new Role("ADMIN");
 			Role userRole = new Role("USER");

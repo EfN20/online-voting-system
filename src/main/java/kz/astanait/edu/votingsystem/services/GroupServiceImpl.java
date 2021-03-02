@@ -11,7 +11,8 @@ import java.util.List;
 
 @Service
 public class GroupServiceImpl implements GroupService {
-    private GroupRepository groupRepository;
+
+    private final GroupRepository groupRepository;
 
     @Autowired
     public GroupServiceImpl(GroupRepository groupRepository) {
@@ -47,5 +48,4 @@ public class GroupServiceImpl implements GroupService {
     public List<Group> findAll() {
         return groupRepository.findAll();
     }
-
 }

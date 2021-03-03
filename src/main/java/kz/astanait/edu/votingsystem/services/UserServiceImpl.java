@@ -3,6 +3,8 @@ package kz.astanait.edu.votingsystem.services;
 import kz.astanait.edu.votingsystem.exceptions.GroupNotFoundException;
 import kz.astanait.edu.votingsystem.exceptions.UserNotFoundException;
 import kz.astanait.edu.votingsystem.models.Authority;
+import kz.astanait.edu.votingsystem.models.Group;
+import kz.astanait.edu.votingsystem.models.Interest;
 import kz.astanait.edu.votingsystem.models.User;
 import kz.astanait.edu.votingsystem.repositories.GroupRepository;
 import kz.astanait.edu.votingsystem.repositories.UserRepository;
@@ -56,12 +58,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     @Transactional
-    public void updateUserDetails(String nickname, String firstName, String lastName, Long group, Integer age) throws UserNotFoundException, GroupNotFoundException {
+    public void updateUserDetails(String nickname, String firstName, String lastName,
+                                  Group group, Integer age, Set<Interest> interests) throws UserNotFoundException {
         User user = userRepository.findUserByNickname(nickname).orElseThrow(UserNotFoundException::new);
         user.setFirstName(firstName);
         user.setLastName(lastName);
-        user.setGroup(groupRepository.findById(group).orElseThrow(GroupNotFoundException::new));
+        user.setGroup(group);
         user.setAge(age);
+        user.setInterests(interests);
     }
 
     @Override

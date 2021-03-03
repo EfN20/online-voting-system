@@ -3,9 +3,12 @@ package kz.astanait.edu.votingsystem.contollers;
 import kz.astanait.edu.votingsystem.exceptions.GroupNotFoundException;
 import kz.astanait.edu.votingsystem.exceptions.RoleNotFoundException;
 import kz.astanait.edu.votingsystem.exceptions.UserNotFoundException;
+import kz.astanait.edu.votingsystem.models.Group;
+import kz.astanait.edu.votingsystem.models.Interest;
 import kz.astanait.edu.votingsystem.models.User;
 import kz.astanait.edu.votingsystem.services.UserServiceImpl;
 import kz.astanait.edu.votingsystem.services.interfaces.GroupService;
+import kz.astanait.edu.votingsystem.services.interfaces.InterestService;
 import kz.astanait.edu.votingsystem.services.interfaces.RoleService;
 import kz.astanait.edu.votingsystem.services.interfaces.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +35,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.security.Principal;
+import java.util.Set;
 
 @Slf4j
 @Controller
@@ -41,14 +45,16 @@ public class UsersController {
     private final UserService userService;
     private final RoleService roleService;
     private final GroupService groupService;
+    private final InterestService interestService;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UsersController(UserServiceImpl userServiceImpl, RoleService roleService,
-                           GroupService groupService, PasswordEncoder passwordEncoder) {
+    public UsersController(UserServiceImpl userServiceImpl, RoleService roleService, GroupService groupService,
+                           InterestService interestService, PasswordEncoder passwordEncoder) {
         this.userService = userServiceImpl;
         this.roleService = roleService;
         this.groupService = groupService;
+        this.interestService = interestService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -84,17 +90,19 @@ public class UsersController {
     public String showEditForm(Model model, Principal principal) {
         model.addAttribute("user", userService.findUserByNickname(principal.getName()));
         model.addAttribute("groups", groupService.findAll());
+        model.addAttribute("interests", interestService.findAll());
         return "users/edit";
     }
 
     @PutMapping("/edit")
     public String update(@RequestParam("firstName") @Valid @NotBlank @Size(max = 30) String firstName,
                          @RequestParam("lastName") @Valid @NotBlank @Size(max = 30) String lastName,
-                         @RequestParam("group") @Valid @NotNull Long group,
+                         @RequestParam("group") @Valid @NotNull Group group,
                          @RequestParam("age") @Valid @Min(value = 16) @Max(value = 100) Integer age,
+                         @RequestParam("interests") Set<Interest> interests,
                          Principal principal) {
         try {
-            userService.updateUserDetails(principal.getName(), firstName, lastName, group, age);
+            userService.updateUserDetails(principal.getName(), firstName, lastName, group, age, interests);
         } catch (UserNotFoundException | GroupNotFoundException e) {
             log.info(e.getMessage());
             return "error/500";

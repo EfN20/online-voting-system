@@ -3,12 +3,17 @@ package kz.astanait.edu.votingsystem;
 import kz.astanait.edu.votingsystem.models.Authority;
 import kz.astanait.edu.votingsystem.models.Group;
 import kz.astanait.edu.votingsystem.models.Interest;
+import kz.astanait.edu.votingsystem.models.Option;
+import kz.astanait.edu.votingsystem.models.Question;
 import kz.astanait.edu.votingsystem.models.Role;
 import kz.astanait.edu.votingsystem.models.User;
+import kz.astanait.edu.votingsystem.models.Vote;
 import kz.astanait.edu.votingsystem.repositories.GroupRepository;
 import kz.astanait.edu.votingsystem.repositories.InterestRepository;
+import kz.astanait.edu.votingsystem.repositories.QuestionRepository;
 import kz.astanait.edu.votingsystem.repositories.RoleRepository;
 import kz.astanait.edu.votingsystem.repositories.UserRepository;
+import kz.astanait.edu.votingsystem.repositories.VoteRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,6 +21,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @SpringBootApplication
@@ -27,11 +33,14 @@ public class VotingSystemApplication {
 
 	@Bean
 	public CommandLineRunner commandLineRunner(UserRepository userRepository, RoleRepository roleRepository,
-											   GroupRepository groupRepository, InterestRepository interestRepository) {
+											   GroupRepository groupRepository, InterestRepository interestRepository,
+											   QuestionRepository questionRepository, VoteRepository voteRepository) {
 		return args -> {
+			// Set of authorities
 			Authority authority1 = new Authority("users:create");
 			Authority authority2 = new Authority("users:update-self-profile");
 
+			// Set of roles
 			Role adminRole = new Role("ADMIN");
 			Role userRole = new Role("USER");
 
@@ -44,6 +53,7 @@ public class VotingSystemApplication {
 					List.of(adminRole, userRole)
 			);
 
+			// Set of groups
 			Group group1 = new Group("SE-1905");
 			Group group2 = new Group("SE-1906");
 			Group group3 = new Group("SE-1907");
@@ -170,6 +180,33 @@ public class VotingSystemApplication {
 			interest1.setName("Lfdsf");
 
 			interestRepository.save(interest1);
+
+			// Set of question
+			Question question1 = new Question("Why are you gay?");
+			Option option1 = new Option("Because I am Aza");
+			Option option2 = new Option("Because I am China");
+			Option option3 = new Option("Because I am Nyrum");
+			Option option4 = new Option("Because I am Madok");
+			question1.setOptions(Set.of(option1, option2, option3, option4));
+
+			Question question2 = new Question("Why are you running?");
+			Option option5 = new Option("AA");
+			Option option6 = new Option("AAA");
+			Option option7 = new Option("AAAA");
+			Option option8 = new Option("AAAAA");
+			question2.setOptions(Set.of(option5, option6, option7, option8));
+
+			questionRepository.saveAll(List.of(question1, question2));
+
+			// Set of TEST VOTE
+			Vote vote1 = new Vote(user2, option2, question1);
+			Vote vote2 = new Vote(user3, option8, question2);
+			Vote vote3 = new Vote(user2, option5, question2);
+
+			voteRepository.saveAll(List.of(vote1, vote2, vote3));
+
+			List<Vote> test = voteRepository.findTop5ByUserOrderByIdDesc(user2);
+			test.forEach(vote -> log.info("\n" + vote + "\n"));
 		};
 	}
 }

@@ -11,6 +11,7 @@ import kz.astanait.edu.votingsystem.services.interfaces.GroupService;
 import kz.astanait.edu.votingsystem.services.interfaces.InterestService;
 import kz.astanait.edu.votingsystem.services.interfaces.RoleService;
 import kz.astanait.edu.votingsystem.services.interfaces.UserService;
+import kz.astanait.edu.votingsystem.services.interfaces.VoteService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -47,21 +48,26 @@ public class UsersController {
     private final GroupService groupService;
     private final InterestService interestService;
     private final PasswordEncoder passwordEncoder;
+    private final VoteService voteService;
 
     @Autowired
     public UsersController(UserServiceImpl userServiceImpl, RoleService roleService, GroupService groupService,
-                           InterestService interestService, PasswordEncoder passwordEncoder) {
+                           InterestService interestService, PasswordEncoder passwordEncoder,
+                           VoteService voteService) {
         this.userService = userServiceImpl;
         this.roleService = roleService;
         this.groupService = groupService;
         this.interestService = interestService;
         this.passwordEncoder = passwordEncoder;
+        this.voteService = voteService;
     }
 
     @GetMapping
     public String show(Model model, Principal principal) {
         try {
-            model.addAttribute("user", userService.findUserByNickname(principal.getName()));
+            User user = userService.findUserByNickname(principal.getName());
+            model.addAttribute("user", user);
+            model.addAttribute("lastVotes", voteService.findTop5ByUserOrderByIdDesc(user));
         } catch (UserNotFoundException e) {
             log.info(e.getMessage());
             return "error/500";

@@ -5,7 +5,16 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
 @Data
@@ -30,7 +39,7 @@ public class Vote {
             fetch = FetchType.EAGER,
             cascade = CascadeType.MERGE
     )
-    @JoinColumn("user_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @NonNull
@@ -38,7 +47,7 @@ public class Vote {
             fetch = FetchType.EAGER,
             cascade = CascadeType.MERGE
     )
-    @JoinColumn("option_id")
+    @JoinColumn(name = "option_id")
     private Option option;
 
     @NonNull

@@ -10,7 +10,18 @@
     <div th:text="|Last name: ${user.getLastName()}|">Last name</div>
     <div th:text="|Nickname: ${user.getNickname()}|">Nickname</div>
     <div th:text="|Email: ${user.getEmail()}|">Email</div>
+    <div th:text="|Group: ${user.getGroup().getName()}|">Group</div>
     <div th:text="|Age: ${user.getAge()}|">Age</div>
+    <div th:with="result = ${lastVotes.isEmpty()}">
+        <div th:if="${result}">
+            <p>You have no recent votes.</p>
+        </div>
+        <div th:unless="${result}">
+            <p th:each="vote : ${lastVotes}" th:text="|Question: ${vote.getQuestion().getTitle()}, Answer: ${vote.getOption().getTitle()}|"></p>
+        </div>
+    </div>
+
+
     <a th:href="@{/users/edit}">Update profile</a>
 </body>
 </html>

@@ -33,4 +33,8 @@ public class MainController {
         return "registration";
     }
 
+    @GetMapping(value = {"/home" , "/"})
+    public String getHomePage(Model model){
+        return "home";
+    }
 }

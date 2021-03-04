@@ -7,6 +7,7 @@ import kz.astanait.edu.votingsystem.services.interfaces.OptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -47,5 +48,11 @@ public class OptionServiceImpl implements OptionService {
     @Override
     public List<Option> findAll() {
         return optionRepository.findAll();
+    }
+
+    @Transactional
+    @Override
+    public void increaseOptionCount(Option option) {
+        option.setVoteCount(option.getVoteCount() + 1);
     }
 }

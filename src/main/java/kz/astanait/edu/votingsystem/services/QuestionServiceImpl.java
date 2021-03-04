@@ -7,6 +7,7 @@ import kz.astanait.edu.votingsystem.services.interfaces.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -47,5 +48,11 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<Question> findAll() {
         return questionRepository.findAll();
+    }
+
+    @Transactional
+    @Override
+    public void increaseVoteCount(Question question) {
+            question.setVoteCount(question.getVoteCount() + 1);
     }
 }

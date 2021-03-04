@@ -53,4 +53,8 @@ public class Question {
     )
     @Column(name = "option_id")
     private Set<Option> options = new HashSet<>();
+
+    @NonNull
+    @Column(name = "vote_count")
+    private Long voteCount;
 }

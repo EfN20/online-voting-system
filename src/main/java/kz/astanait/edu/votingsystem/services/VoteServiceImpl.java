@@ -10,6 +10,7 @@ import kz.astanait.edu.votingsystem.services.interfaces.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -40,6 +41,12 @@ public class VoteServiceImpl implements VoteService {
     @Override
     public List<Vote> findVotesByQuestionAndOption(Question question, Option option) {
         return voteRepository.findVotesByQuestionAndOption(question, option);
+    }
+
+    @Transactional
+    @Override
+    public void deleteAllByOption(Option option) {
+        voteRepository.deleteAllByOption(option);
     }
 
     @Override

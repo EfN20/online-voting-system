@@ -12,4 +12,5 @@ public interface VoteService extends GenericService<Vote> {
     List<Vote> findTop5ByUserOrderByIdDesc(User user);
     List<Vote> findVotesByUser(User user);
     List<Vote> findVotesByQuestionAndOption(Question question, Option option);
+    void deleteAllByOption(Option option);
 }

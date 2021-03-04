@@ -13,7 +13,6 @@ import kz.astanait.edu.votingsystem.services.interfaces.RoleService;
 import kz.astanait.edu.votingsystem.services.interfaces.UserService;
 import kz.astanait.edu.votingsystem.services.interfaces.VoteService;
 import lombok.extern.slf4j.Slf4j;
-import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -22,14 +21,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -79,23 +79,32 @@ public class QuestionsController {
         return "redirect:/home?success";
     }
 
-    @GetMapping("/fullStatistics")
+    @GetMapping("/full-statistics")
     public String getFullStatistics(@RequestParam("question") Question question, Model model, Principal principal) {
         User user = userService.findUserByNickname(principal.getName());
         List<User> groupMates = userService.findUsersByGroup(user.getGroup());
         Map<Option, List<User>> usersVotedOptions = new LinkedHashMap<>();
-        for (Option option: question.getOptions()) {
+
+        Set<Option> sortedOptions = question.getOptions().stream()
+                .sorted(Comparator.comparingLong(Option::getId))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+        question.setOptions(sortedOptions);
+
+        question.getOptions().forEach(option -> {
             List<User> sameVotedUsers = new ArrayList<>();
             List<Vote> votes = voteService.findVotesByQuestionAndOption(question, option);
+
             votes.stream()
                     .filter(vote -> groupMates.contains(vote.getUser()))
                     .collect(Collectors.toList())
                     .forEach(vote -> sameVotedUsers.add(vote.getUser()));
-            if(!votes.isEmpty()) {
+
+            if (!sameVotedUsers.isEmpty())
                 usersVotedOptions.put(option, sameVotedUsers);
-            }
-        }
+        });
+
+        model.addAttribute("question", question);
         model.addAttribute("statistics", usersVotedOptions);
-        return "questions/vote-page";
+        return "questions/full-statistics";
     }
 }

@@ -24,6 +24,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -65,40 +66,62 @@ public class MainController {
     }
 
     @GetMapping(value = {"/home" , "/"})
-    public String getHomePage(Model model, Principal principal){
+    public String getHomePage(Model model, Principal principal) {
         try {
             User user = userService.findUserByNickname(principal.getName());
-            List<Question> questionList = questionService.findAll();
-            questionList = questionList.stream().
-                    sorted(Comparator.comparingLong(Question::getId)).
-                    collect(Collectors.toList());
-            questionList.forEach(question -> {
-                LinkedHashSet<Option> sortedOptions = question.getOptions().stream()
-                                                        .sorted(Comparator.comparingLong(Option::getId))
-                                                        .collect(Collectors.toCollection(LinkedHashSet::new));
-                question.setOptions(sortedOptions);
-            });
-            List<Vote> voteList = voteService.findVotesByUser(user);
-            Map<Question, Boolean> questionBooleanMap = new LinkedHashMap<>();
-            if (voteList.isEmpty()) {
-                questionList.forEach(question -> questionBooleanMap.put(question, false));
-            } else {
-                for (Question question : questionList) {
-                    for (Vote vote : voteList) {
-                        if (vote.getQuestion() == question) {
-                            questionBooleanMap.put(question, true);
-                            break;
-                        }
-                        questionBooleanMap.put(question, false);
-                    }
-                }
-            }
+            Map<Question, Boolean> questionBooleanMap = getQuestionBooleanMap(user);
             model.addAttribute("questions", questionBooleanMap);
-            model.addAttribute("votes", voteList);
         } catch (UserNotFoundException e) {
             log.info(e.getMessage());
             return "error/500";
         }
         return "home";
+    }
+
+    @GetMapping("/admin")
+    public String getAdminPage(Model model, Principal principal) {
+        try {
+            User user = userService.findUserByNickname(principal.getName());
+            Map<Question, Boolean> questionBooleanMap = getQuestionBooleanMap(user);
+            model.addAttribute("questions", questionBooleanMap);
+        } catch (UserNotFoundException e) {
+            log.info(e.getMessage());
+            return "error/500";
+        }
+        return "admin";
+    }
+
+    private Map<Question, Boolean> getQuestionBooleanMap(User user) {
+        List<Question> questionList = questionService.findAll();
+
+        // Сортируем лист (???)
+        questionList = questionList.stream().
+                sorted(Comparator.comparingLong(Question::getId)).
+                collect(Collectors.toList());
+
+        // Сортируем options (???)
+        questionList.forEach(question -> {
+            Set<Option> sortedOptions = question.getOptions().stream()
+                    .sorted(Comparator.comparingLong(Option::getId))
+                    .collect(Collectors.toCollection(LinkedHashSet::new));
+            question.setOptions(sortedOptions);
+        });
+
+        List<Vote> voteList = voteService.findVotesByUser(user);
+        Map<Question, Boolean> questionBooleanMap = new LinkedHashMap<>();
+
+        if (voteList.isEmpty()) {
+            questionList.forEach(question -> questionBooleanMap.put(question, false));
+        } else {
+            questionList.forEach(question -> voteList.forEach(vote -> {
+                if (vote.getQuestion() == question) {
+                    questionBooleanMap.put(question, true);
+                    return;
+                }
+                questionBooleanMap.put(question, false);
+            }));
+        }
+
+        return questionBooleanMap;
     }
 }

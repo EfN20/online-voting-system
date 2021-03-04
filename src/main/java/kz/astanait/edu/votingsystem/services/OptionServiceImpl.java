@@ -55,4 +55,10 @@ public class OptionServiceImpl implements OptionService {
     public void increaseOptionCount(Option option) {
         option.setVoteCount(option.getVoteCount() + 1);
     }
+
+    @Transactional
+    @Override
+    public void updateOption(Option option, String newTitle) {
+        option.setTitle(newTitle);
+    }
 }

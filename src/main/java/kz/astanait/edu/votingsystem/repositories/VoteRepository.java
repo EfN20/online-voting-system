@@ -16,4 +16,5 @@ public interface VoteRepository extends JpaRepository<Vote, Long> {
     List<Vote> findTop5ByUserOrderByIdDesc(User user);
     List<Vote> findVotesByUser(User user);
     List<Vote> findVotesByQuestionAndOption(Question question, Option option);
+    void deleteAllByOption(Option option);
 }

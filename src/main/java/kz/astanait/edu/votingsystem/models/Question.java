@@ -55,6 +55,16 @@ public class Question {
     @JoinColumn(name = "option_id")
     private Set<Option> options = new LinkedHashSet<>();
 
+    public void addOption(Option option) {
+        voteCount += option.getVoteCount();
+        options.add(option);
+    }
+
+    public void removeOption(Option option) {
+        voteCount -= option.getVoteCount();
+        options.remove(option);
+    }
+
     @NonNull
     @Column(name = "vote_count")
     private Long voteCount;

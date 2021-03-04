@@ -129,5 +129,4 @@ public class User {
         interests.remove(interest);
         interest.getUsers().remove(this);
     }
-
 }

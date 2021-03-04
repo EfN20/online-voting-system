@@ -10,7 +10,7 @@
 <header th:insert="~{includes/header :: header}"></header>
 
 <div>
-    <div class="bd-example">
+    <div class="bd-example container">
         <div class="row  row-cols-1 row-cols-md-2 g-4">
 
             <div th:each="question : ${questions}" class="col">
@@ -21,14 +21,22 @@
 
                     <div class="card-body">
                         <form th:method="POST" th:action="@{/questions}">
-                            <h5 class="card-title" th:text="${question.getTitle()}">Question Title</h5>
-                            <input type="hidden" name="question" th:value="${question.getId()}" />
+                            <h5 class="card-title" th:text="${question.key.getTitle()}">Question Title</h5>
+                            <input type="hidden" name="question" th:value="${question.key.getId()}" />
                             <p class="card-text">Choose preferred option: </p>
-                            <div th:each="option : ${question.getOptions()}">
-                                <input type="radio" name="option" th:value="${option.getId()}" />
+                            <div th:each="option : ${question.key.getOptions()}">
+                                <label>
+                                    <input
+                                            type="radio"
+                                            name="option"
+                                            th:disabled="${question.value}"
+                                            th:value="${option.getId()}"
+                                            required
+                                    />
+                                </label>
                                 <span th:text="${option.getTitle()}">Option Title</span>
                             </div>
-                            <button type="submit">Vote</button>
+                            <button th:disabled="${question.value}" type="submit">Vote</button>
                         </form>
                     </div>
 

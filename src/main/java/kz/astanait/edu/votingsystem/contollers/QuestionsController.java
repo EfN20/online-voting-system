@@ -22,7 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -56,19 +59,23 @@ public class QuestionsController {
             User user = userService.findUserByNickname(principal.getName());
             List<Question> questionList = questionService.findAll();
             List<Vote> voteList = voteService.findVotesByUser(user);
-//            int length = questionList.size();
-//            for (int i = 0; i < length; i++) {
-//                for (Vote vote : voteList) {
-//                    if (questionList.get(i) == vote.getQuestion()) {
-//                        questionList.remove(i);
-//                        i--;
-//                        length--;
-//                        break;
-//                    }
-//                }
-//            }
-//            questionList.forEach(question -> log.info(String.valueOf(question)));
-            model.addAttribute("questions", questionList);
+            Map<Question, Boolean> questionBooleanMap = new LinkedHashMap<>();
+
+            if (voteList.isEmpty()) {
+                questionList.forEach(question -> questionBooleanMap.put(question, false));
+            } else {
+                for (Question question : questionList) {
+                    for (Vote vote : voteList) {
+                        if (vote.getQuestion() == question) {
+                            questionBooleanMap.put(question, true);
+                            break;
+                        }
+                        questionBooleanMap.put(question, false);
+                    }
+                }
+            }
+
+            model.addAttribute("questions", questionBooleanMap);
             model.addAttribute("votes", voteList);
         } catch (UserNotFoundException e) {
             log.info(e.getMessage());
@@ -81,9 +88,16 @@ public class QuestionsController {
     public String submitVote(@RequestParam("question") Question question,
                              @RequestParam("option") Option option,
                              Principal principal) {
-        log.info("[Question] " + question);
-        log.info("[Option] " + option);
+        try {
+            voteService.save(new Vote(
+                    userService.findUserByNickname(principal.getName()),
+                    option,
+                    question)
+            );
+        } catch (UserNotFoundException e) {
+            log.info(e.getMessage());
+            return "error/500";
+        }
         return "redirect:/questions?success";
     }
-
 }

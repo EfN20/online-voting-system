@@ -22,6 +22,7 @@ import javax.persistence.Table;
 @RequiredArgsConstructor
 @Table(name = "votes")
 public class Vote {
+
     @Id
     @SequenceGenerator(
             name = "votes_sequence",

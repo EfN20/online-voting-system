@@ -1,12 +1,10 @@
 package kz.astanait.edu.votingsystem.contollers;
 
-import kz.astanait.edu.votingsystem.exceptions.GroupNotFoundException;
 import kz.astanait.edu.votingsystem.exceptions.RoleNotFoundException;
 import kz.astanait.edu.votingsystem.exceptions.UserNotFoundException;
 import kz.astanait.edu.votingsystem.models.Group;
 import kz.astanait.edu.votingsystem.models.Interest;
 import kz.astanait.edu.votingsystem.models.User;
-import kz.astanait.edu.votingsystem.services.UserServiceImpl;
 import kz.astanait.edu.votingsystem.services.interfaces.GroupService;
 import kz.astanait.edu.votingsystem.services.interfaces.InterestService;
 import kz.astanait.edu.votingsystem.services.interfaces.RoleService;
@@ -51,10 +49,10 @@ public class UsersController {
     private final VoteService voteService;
 
     @Autowired
-    public UsersController(UserServiceImpl userServiceImpl, RoleService roleService, GroupService groupService,
+    public UsersController(UserService userService, RoleService roleService, GroupService groupService,
                            InterestService interestService, PasswordEncoder passwordEncoder,
                            VoteService voteService) {
-        this.userService = userServiceImpl;
+        this.userService = userService;
         this.roleService = roleService;
         this.groupService = groupService;
         this.interestService = interestService;
@@ -109,7 +107,7 @@ public class UsersController {
                          Principal principal) {
         try {
             userService.updateUserDetails(principal.getName(), firstName, lastName, group, age, interests);
-        } catch (UserNotFoundException | GroupNotFoundException e) {
+        } catch (UserNotFoundException e) {
             log.info(e.getMessage());
             return "error/500";
         }

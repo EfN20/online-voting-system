@@ -1,6 +1,5 @@
 package kz.astanait.edu.votingsystem.services;
 
-import kz.astanait.edu.votingsystem.exceptions.GroupNotFoundException;
 import kz.astanait.edu.votingsystem.exceptions.UserNotFoundException;
 import kz.astanait.edu.votingsystem.models.Authority;
 import kz.astanait.edu.votingsystem.models.Group;

@@ -40,8 +40,4 @@ public class Option {
     @NonNull
     @Column(name = "vote_count")
     private Long voteCount;
-
-    private void incrementVoteCount(){
-        this.voteCount++;
-    }
 }

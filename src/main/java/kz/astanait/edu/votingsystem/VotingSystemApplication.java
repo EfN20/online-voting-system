@@ -179,10 +179,6 @@ public class VotingSystemApplication {
 					List.of(user1, user2, user3, user4, user5, user6, user7)
 			);
 
-			interest1.setName("Lfdsf");
-
-			interestRepository.save(interest1);
-
 			// Set of question
 			Question question1 = new Question("Why are you gay?",0L);
 			Option option1 = new Option("Because I am Aza",0L);

@@ -38,8 +38,8 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
-    public Long countVotesByQuestion(Question question) {
-        return voteRepository.countByQuestion(question);
+    public List<Vote> findVotesByQuestionAndOption(Question question, Option option) {
+        return voteRepository.findVotesByQuestionAndOption(question, option);
     }
 
     @Override

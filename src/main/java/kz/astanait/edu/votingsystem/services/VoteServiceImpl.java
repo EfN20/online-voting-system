@@ -33,6 +33,11 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
+    public List<Vote> findVotesByUser(User user) {
+        return voteRepository.findVotesByUser(user);
+    }
+
+    @Override
     public Vote findById(Long id) {
         return voteRepository.findById(id).orElseThrow(VoteNotFoundException::new);
     }

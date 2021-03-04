@@ -9,5 +9,10 @@
 
 <header th:insert="~{includes/header :: header}"></header>
 
+    <div class="mt-5" th:each="statistic : ${statistics}">
+        <h1 th:text="|${statistic.key.getTitle()}, count: ${statistic.value.size()}|">Option Title: </h1>
+        <span th:each="user : ${statistic.value}" th:text="|${user.getFirstName()}, |">User First Name</span>
+    </div>
+
 </body>
 </html>

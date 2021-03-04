@@ -9,44 +9,49 @@
 
 <header th:insert="~{includes/header :: header}"></header>
 
-    <div th:text="|First name: ${user.getFirstName()}|">First name</div>
-    <div th:text="|Last name: ${user.getLastName()}|">Last name</div>
-    <div th:text="|Nickname: ${user.getNickname()}|">Nickname</div>
-    <div th:text="|Email: ${user.getEmail()}|">Email</div>
-    <div th:text="|Group: ${user.getGroup().getName()}|">Group</div>
-    <div th:text="|Age: ${user.getAge()}|">Age</div>
-    <div th:with="result = ${lastVotes.isEmpty()}">
+
+    <!--<div th:with="result = ${lastVotes.isEmpty()}">
         <div th:if="${result}">
             <p>You have no recent votes.</p>
         </div>
         <div th:unless="${result}">
             <p th:each="vote : ${lastVotes}" th:text="|Question: ${vote.getQuestion().getTitle()}, Answer: ${vote.getOption().getTitle()}|"></p>
         </div>
-    </div>
+    </div>-->
 
 
     <a th:href="@{/users/edit}">Update profile</a>
-    <main class="container">
-
-
-        <div class="my-3 p-3 bg-white rounded shadow-sm">
-            <h6 class="border-bottom pb-2 mb-0">Recent updates</h6>
-            <div class="d-flex text-muted pt-3">
-                <svg class="bd-placeholder-img flex-shrink-0 mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" role="img" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"></rect><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
-
-                <p class="pb-3 mb-0 small lh-sm border-bottom">
-                    <strong class="d-block text-gray-dark">@username</strong>
-                    Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-                </p>
+    <main class="container mt-5 w-50">
+        <div th:text="|First name: ${user.getFirstName()}|">First name</div>
+        <div th:text="|Last name: ${user.getLastName()}|">Last name</div>
+        <div th:text="|Nickname: ${user.getNickname()}|">Nickname</div>
+        <div th:text="|Email: ${user.getEmail()}|">Email</div>
+        <div th:text="|Group: ${user.getGroup().getName()}|">Group</div>
+        <div th:text="|Age: ${user.getAge()}|">Age</div>
+        <div th:with="isInterest = ${user.getInterests().isEmpty()}">
+            <div th:if="${isInterest}">
+                <p class="m-0">You have not chose interest.</p>
             </div>
-
-
-            <small class="d-block text-right mt-3">
-                <a href="#">All updates</a>
-            </small>
+            <div th:unless="${isInterest}">
+                <p class="m-0">Interests: </p>
+                <p class="m-0" th:each="interest : ${user.getInterests()}" th:text="${interest.getName()}">Interest</p>
+            </div>
         </div>
 
-        <div class="my-3 p-3 bg-white rounded shadow-sm">
+        <div class="my-3 p-3 bg-white rounded shadow-sm w-75" th:with="result = ${lastVotes.isEmpty()}">
+            <h6 class="border-bottom pb-2 mb-0" th:if="${result}">You have no recent votes</h6>
+            <h6 class="border-bottom pb-2 mb-0" th:unless="${result}">Recent votes:</h6>
+            <div class="text-muted pt-3" th:each="vote : ${lastVotes}">
+<!--                <svg class="bd-placeholder-img flex-shrink-0 mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" role="img" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"></rect><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>-->
+
+                <h5 class="d-block fw-bold text-gray-dark" th:text="|Question: ${vote.getQuestion().getTitle()}|">Question Title</h5>
+                <p class="pb-3 mb-0 small lh-sm border-bottom" th:text="|Your vote: ${vote.getOption().getTitle()}|">
+                    Option Title
+                </p>
+            </div>
+        </div>
+
+        <!--<div class="my-3 p-3 bg-white rounded shadow-sm">
             <h6 class="border-bottom pb-2 mb-0">Suggestions</h6>
             <div class="d-flex text-muted pt-3">
                 <svg class="bd-placeholder-img flex-shrink-0 mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" role="img" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"></rect><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
@@ -64,7 +69,7 @@
             <small class="d-block text-right mt-3">
                 <a href="#">All suggestions</a>
             </small>
-        </div>
+        </div>-->
     </main>
 </body>
 </html>

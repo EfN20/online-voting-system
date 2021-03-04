@@ -68,6 +68,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public List<User> findUsersByGroup(Group group) {
+        return userRepository.findUsersByGroup(group);
+    }
+
+    @Override
     public User findById(Long id) {
         return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }

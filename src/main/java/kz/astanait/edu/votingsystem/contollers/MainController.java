@@ -1,6 +1,7 @@
 package kz.astanait.edu.votingsystem.contollers;
 
 import kz.astanait.edu.votingsystem.exceptions.UserNotFoundException;
+import kz.astanait.edu.votingsystem.models.Option;
 import kz.astanait.edu.votingsystem.models.Question;
 import kz.astanait.edu.votingsystem.models.User;
 import kz.astanait.edu.votingsystem.models.Vote;
@@ -18,9 +19,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.security.Principal;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -65,6 +69,15 @@ public class MainController {
         try {
             User user = userService.findUserByNickname(principal.getName());
             List<Question> questionList = questionService.findAll();
+            questionList = questionList.stream().
+                    sorted(Comparator.comparingLong(Question::getId)).
+                    collect(Collectors.toList());
+            questionList.forEach(question -> {
+                LinkedHashSet<Option> sortedOptions = question.getOptions().stream()
+                                                        .sorted(Comparator.comparingLong(Option::getId))
+                                                        .collect(Collectors.toCollection(LinkedHashSet::new));
+                question.setOptions(sortedOptions);
+            });
             List<Vote> voteList = voteService.findVotesByUser(user);
             Map<Question, Boolean> questionBooleanMap = new LinkedHashMap<>();
             if (voteList.isEmpty()) {

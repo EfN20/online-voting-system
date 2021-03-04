@@ -11,5 +11,5 @@ public interface VoteService extends GenericService<Vote> {
     Vote findVoteByUserAndOptionAndQuestion(User user, Option option, Question question);
     List<Vote> findTop5ByUserOrderByIdDesc(User user);
     List<Vote> findVotesByUser(User user);
-    Long countVotesByQuestion(Question question);
+    List<Vote> findVotesByQuestionAndOption(Question question, Option option);
 }

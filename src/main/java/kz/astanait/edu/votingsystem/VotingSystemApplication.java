@@ -14,6 +14,7 @@ import kz.astanait.edu.votingsystem.repositories.QuestionRepository;
 import kz.astanait.edu.votingsystem.repositories.RoleRepository;
 import kz.astanait.edu.votingsystem.repositories.UserRepository;
 import kz.astanait.edu.votingsystem.repositories.VoteRepository;
+import kz.astanait.edu.votingsystem.services.interfaces.OptionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -34,7 +35,8 @@ public class VotingSystemApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(UserRepository userRepository, RoleRepository roleRepository,
 											   GroupRepository groupRepository, InterestRepository interestRepository,
-											   QuestionRepository questionRepository, VoteRepository voteRepository) {
+											   QuestionRepository questionRepository, VoteRepository voteRepository,
+											   OptionService optionService) {
 		return args -> {
 			// Set of authorities
 			Authority authority1 = new Authority("users:create");
@@ -182,28 +184,32 @@ public class VotingSystemApplication {
 			interestRepository.save(interest1);
 
 			// Set of question
-			Question question1 = new Question("Why are you gay?");
-			Option option1 = new Option("Because I am Aza");
-			Option option2 = new Option("Because I am China");
-			Option option3 = new Option("Because I am Nyrum");
-			Option option4 = new Option("Because I am Madok");
+			Question question1 = new Question("Why are you gay?",0L);
+			Option option1 = new Option("Because I am Aza",0L);
+			Option option2 = new Option("Because I am China",0L);
+			Option option3 = new Option("Because I am Nyrum",0L);
+			Option option4 = new Option("Because I am Madok",0L);
 			question1.setOptions(Set.of(option1, option2, option3, option4));
 
-			Question question2 = new Question("Why are you running?");
-			Option option5 = new Option("AA");
-			Option option6 = new Option("AAA");
-			Option option7 = new Option("AAAA");
-			Option option8 = new Option("AAAAA");
+			Question question2 = new Question("Why are you running?",0L);
+			Option option5 = new Option("AA",0L);
+			Option option6 = new Option("AAA",0L);
+			Option option7 = new Option("AAAA",0L);
+			Option option8 = new Option("AAAAA",0L);
 			question2.setOptions(Set.of(option5, option6, option7, option8));
 
 			questionRepository.saveAll(List.of(question1, question2));
 
 			// Set of TEST VOTE
-			Vote vote1 = new Vote(user2, option2, question1);
-			Vote vote2 = new Vote(user3, option8, question2);
-			Vote vote3 = new Vote(user2, option5, question2);
+//			Vote vote1 = new Vote(user2, option2, question1);
+//			Vote vote2 = new Vote(user3, option8, question2);
+//			Vote vote3 = new Vote(user2, option5, question2);
+//
+//			optionService.increaseOptionCount(option2);
+//			optionService.increaseOptionCount(option8);
+//			optionService.increaseOptionCount(option5);
 
-			voteRepository.saveAll(List.of(vote1, vote2, vote3));
+//			voteRepository.saveAll(List.of(vote1, vote2, vote3));
 
 			List<Vote> test = voteRepository.findTop5ByUserOrderByIdDesc(user2);
 			test.forEach(vote -> log.info("\n" + vote + "\n"));

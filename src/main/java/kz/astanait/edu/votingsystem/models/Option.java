@@ -36,4 +36,12 @@ public class Option {
     @NonNull
     @Column(name = "title")
     private String title;
+
+    @NonNull
+    @Column(name = "vote_count")
+    private Long voteCount;
+
+    private void incrementVoteCount(){
+        this.voteCount++;
+    }
 }

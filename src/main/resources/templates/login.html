@@ -20,12 +20,15 @@
         </div>
 
         <label for="nickname" class="visually-hidden">Nickname</label>
-        <input type="text" id="nickname" name="nickname" class="form-control" placeholder="Nickname" required autofocus>
+        <input type="text" id="nickname" name="nickname" class="form-control my-1" placeholder="Nickname" required autofocus>
 
         <label for="password" class="visually-hidden">Password</label>
-        <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+        <input type="password" id="password" name="password" class="form-control my-1" placeholder="Password" required>
 
         <button class="w-100 btn btn-lg btn-success" type="submit">Sign in</button>
+    </form>
+    <form th:action="@{/registration}">
+        <button class="w-100 btn btn-lg btn-success my-1" type="submit">Registration</button>
     </form>
 </main>
 </body>

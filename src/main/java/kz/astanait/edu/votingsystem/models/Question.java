@@ -52,7 +52,7 @@ public class Question {
                     CascadeType.REMOVE
             }
     )
-    @JoinColumn(name = "option_id")
+    @JoinColumn(name = "question_id")
     private Set<Option> options = new LinkedHashSet<>();
 
     public void addOption(Option option) {

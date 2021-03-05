@@ -20,9 +20,50 @@
     </div>-->
 
 
-    <a th:href="@{/users/edit}">Update profile</a>
+
     <main class="container mt-5 w-50">
-        <div th:text="|First name: ${user.getFirstName()}|">First name</div>
+        <table class="table table-hover w-50">
+            <tbody>
+                <tr>
+                    <td>First name</td>
+                    <td th:text="${user.getFirstName()}"></td>
+                </tr>
+                <tr>
+                    <td>Last name</td>
+                    <td th:text="${user.getLastName()}"></td>
+                </tr>
+                <tr>
+                    <td>Nickname</td>
+                    <td th:text="${user.getNickname()}"></td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td th:text="${user.getEmail()}"></td>
+                </tr>
+                <tr>
+                    <td>Group</td>
+                    <td th:text="${user.getGroup().getName()}"></td>
+                </tr>
+                <tr>
+                    <td>Age</td>
+                    <td th:text="${user.getAge()}"></td>
+                </tr>
+                <tr th:if="${user.getInterests().isEmpty()}">
+                    <td>Interest</td>
+                    <td>You have not chose interest.</td>
+                </tr>
+                <tr th:unless="${user.getInterests().isEmpty()}" th:each="interest : ${user.getInterests()}">
+                    <td th:text="|Interest ${interestStat.count}|">Interest</td>
+                    <td th:text="${interest.getName()}">Interest name</td>
+                </tr>
+                <tr>
+                    <td>
+                        <a th:href="@{/users/edit}">Update profile</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--<div th:text="|First name: ${user.getFirstName()}|">First name</div>
         <div th:text="|Last name: ${user.getLastName()}|">Last name</div>
         <div th:text="|Nickname: ${user.getNickname()}|">Nickname</div>
         <div th:text="|Email: ${user.getEmail()}|">Email</div>
@@ -37,6 +78,10 @@
                 <p class="m-0" th:each="interest : ${user.getInterests()}" th:text="${interest.getName()}">Interest</p>
             </div>
         </div>
+        <div>
+            <a th:href="@{/users/edit}">Update profile</a>
+        </div>-->
+
 
         <div class="my-3 p-3 bg-white rounded shadow-sm w-75" th:with="result = ${lastVotes.isEmpty()}">
             <h6 class="border-bottom pb-2 mb-0" th:if="${result}">You have no recent votes</h6>

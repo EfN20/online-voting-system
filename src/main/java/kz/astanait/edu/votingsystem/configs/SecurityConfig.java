@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/admin/**", "/options/**", "/all-users").hasRole("ADMIN")
                 .antMatchers("/registration").permitAll()
                 .antMatchers(HttpMethod.POST, "/users").permitAll()
                 .antMatchers("/users/**").hasAuthority("users:update-self-profile")
@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/css/**", "/js/**");
+        web.ignoring().antMatchers("/css/**", "/js/**", "/favicon.ico", "/resources/**", "/error");
     }
 
     @Override

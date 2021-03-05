@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Users</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap/bootstrap.min.css}">
+</head>
+<body>
+    <div th:insert="~{includes/header :: header}"></div>
+
+    <div th:if="${param.success}" class="alert alert-success w-25 mx-auto text-center">
+        Success!
+    </div>
+    <main class="container">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <td>ID</td>
+                <td>First Name</td>
+                <td>Last Name</td>
+                <td>Nickname</td>
+                <td>Email</td>
+                <td>Role</td>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.getId()}">ID</td>
+                    <td th:text="${user.getFirstName()}">First Name</td>
+                    <td th:text="${user.getLastName()}">Last Name</td>
+                    <td th:text="${user.getNickname()}">Nickname</td>
+                    <td th:text="${user.getEmail()}">Email</td>
+                    <td>
+                        <form th:method="PATCH" th:action="@{/admin/role-update}">
+                            <select name="role">
+                                <option th:each="role : ${roles}"
+                                        th:value="${role.getId()}"
+                                        th:text="${role.getName()}"
+                                        th:selected="${role.getId() == user.getRole().getId()} ? true">Role
+                                </option>
+                            </select>
+                            <input type="hidden" th:value="${user.getId()}" name="user" />
+                            <button class="btn btn-primary btn-sm" type="submit">Update Role</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+</body>
+</html>

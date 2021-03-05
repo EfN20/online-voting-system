@@ -15,5 +15,4 @@ public interface UserService extends GenericService<User> {
     void updateUserDetails(String nickname, String firstName, String lastName, Group group, Integer age, Set<Interest> interests) throws UserNotFoundException;
     List<User> findUsersByGroup(Group group);
     void updateUserRole(User user, Role role);
-    List<User> findUsersByInterestsContains(Interest interest);
 }

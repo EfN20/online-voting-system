@@ -207,11 +207,11 @@ public class VotingSystemApplication {
 //			optionService.increaseOptionCount(option5);
 
 //			voteRepository.saveAll(List.of(vote1, vote2, vote3));
-			List<User> users = userRepository.findUsersByInterestsContains(interest1);
-			log.info(String.valueOf(users));
-
-			List<Vote> test = voteRepository.findTop5ByUserOrderByIdDesc(user2);
-			test.forEach(vote -> log.info("\n" + vote + "\n"));
+//			List<User> users = userRepository.findUsersByInterestsContains(interest1);
+//			log.info(String.valueOf(users));
+//
+//			List<Vote> test = voteRepository.findTop5ByUserOrderByIdDesc(user2);
+//			test.forEach(vote -> log.info("\n" + vote + "\n"));
 		};
 	}
 }

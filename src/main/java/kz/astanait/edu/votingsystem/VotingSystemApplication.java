@@ -114,6 +114,7 @@ public class VotingSystemApplication {
 			);
 			user3.addInterest(interest3);
 			user3.addInterest(interest5);
+			user3.addInterest(interest4);
 
 			User user4 = new User(
 					"Nurym",

@@ -52,10 +52,6 @@
                     <td>Interest</td>
                     <td>You have not chose interest.</td>
                 </tr>
-                <tr th:unless="${user.getInterests().isEmpty()}" th:each="interest : ${user.getInterests()}">
-                    <td th:text="|Interest ${interestStat.count}|">Interest</td>
-                    <td th:text="${interest.getName()}">Interest name</td>
-                </tr>
                 <tr>
                     <td>
                         <a th:href="@{/users/edit}">Update profile</a>
@@ -63,6 +59,12 @@
                 </tr>
             </tbody>
         </table>
+        <div class="bd-example" th:unless="${user.getInterests().isEmpty()}" >
+            <h1 class="btn btn-primary m-1 disabled" data-toggle="button"
+                th:each="interest : ${user.getInterests()}"
+                th:text="${interest.getName()}">
+            </h1>
+        </div>
         <!--<div th:text="|First name: ${user.getFirstName()}|">First name</div>
         <div th:text="|Last name: ${user.getLastName()}|">Last name</div>
         <div th:text="|Nickname: ${user.getNickname()}|">Nickname</div>

@@ -83,8 +83,8 @@ public class QuestionsController {
 
     @GetMapping("/full-statistics/{id}")
     public String getFullStatistics(@PathVariable("id") Question question, Model model, Principal principal) {
-        User user = userService.findUserByNickname(principal.getName());
-        List<User> groupMates = userService.findUsersByGroup(user.getGroup());
+        User currentUser = userService.findUserByNickname(principal.getName());
+        List<User> groupMates = userService.findUsersByGroup(currentUser.getGroup());
         Map<Option, List<User>> usersVotedOptions = new LinkedHashMap<>();
 
         Set<Option> sortedOptions = question.getOptions().stream()
@@ -106,7 +106,19 @@ public class QuestionsController {
             }
         });
 
-        // Block with for every option, find All users, sharing same Interest
+        Map<Option, Map<Interest, Set<User>>> userOptionMap = getMapByQuestionUserOption(question, currentUser);
+        Map<Option, Map<Interest, Set<User>>> allOptionMap = getMapByQuestionAllOption(question, currentUser);
+
+        model.addAttribute("question", question);
+        model.addAttribute("statisticsByGroupMates", usersVotedOptions);
+        model.addAttribute("statisticsByInterests", allOptionMap);
+        model.addAttribute("statisticsByInterestsUserOption", userOptionMap);
+        return "questions/full-statistics";
+    }
+
+    // Get Map for Current User Option
+    private Map<Option, Map<Interest, Set<User>>> getMapByQuestionUserOption (Question question, User currentUser) {
+        // Block with for your option, find All users, sharing same Interest
         Map<Option, Map<Interest, Set<User>>> usersCommonInterest = new LinkedHashMap<>();
         // For every Option of Question
         for (Option option : question.getOptions()) {
@@ -114,11 +126,23 @@ public class QuestionsController {
             if (option.getVoteCount() <= 1) {
                 continue;
             }
-            Map<Interest, Set<User>> sameInterestUsers = new LinkedHashMap<>();
             // Find votes for every Option
             List<Vote> votes = voteService.findVotesByQuestionAndOption(question, option);
-            // For every Interest
-            for (Interest interest : user.getInterests()) {
+            Option currUserOption = null;
+            // Find Option that you chose
+            for (Vote vote : votes) {
+                if (vote.getUser() == currentUser) {
+                    currUserOption = vote.getOption();
+                }
+            }
+            // If Iteration Option not equal to Current User Option, then skip Iteration Option
+            if (option != currUserOption) {
+                continue;
+            }
+
+            Map<Interest, Set<User>> sameInterestUsers = new LinkedHashMap<>();
+            // For every Interest of Current
+            for (Interest interest : currentUser.getInterests()) {
                 // If this interest have 1 or less users, exit loop
                 if (interest.getUsers().size() <= 1) {
                     continue;
@@ -137,12 +161,44 @@ public class QuestionsController {
             if (sameInterestUsers.size() > 0)
                 usersCommonInterest.put(option, sameInterestUsers);
         }
-        // Block with for every option, find All users, sharing same Interest
+        return usersCommonInterest;
+        // Block with for your option, find All users, sharing same Interest
+    }
 
-        log.info(String.valueOf(usersCommonInterest));
-        model.addAttribute("question", question);
-        model.addAttribute("statisticsByGroupMates", usersVotedOptions);
-        model.addAttribute("statisticsByInterests", usersCommonInterest);
-        return "questions/full-statistics";
+    // Get Map for All Options
+    private Map<Option, Map<Interest, Set<User>>> getMapByQuestionAllOption (Question question, User currentUser) {
+        // Block with for every option, find All users, sharing same Interest
+        List<Interest> allInterest = interestService.findAll();
+        Map<Option, Map<Interest, Set<User>>> mapOfOptionsWithSameInterests = new LinkedHashMap<>();
+        // For every Option of Question
+        for (Option option : question.getOptions()) {
+            // If option has 1 or less vote, then no need to process this option
+            if (option.getVoteCount() <= 1) {
+                continue;
+            }
+            Map<Interest, Set<User>> sameInterestUsers = new LinkedHashMap<>();
+            // Find votes for every Option
+            List<Vote> votes = voteService.findVotesByQuestionAndOption(question, option);
+            // For every Interest of Current User
+            for (Interest interest : currentUser.getInterests()) {
+                // If this interest have 1 or less users, exit loop
+                if (interest.getUsers().size() <= 1) {
+                    continue;
+                }
+                Set<User> commonInterestUsers = new LinkedHashSet<>();
+                for (Vote vote : votes) {
+                    // Check, if voted User have this Interest
+                    if (vote.getUser().getInterests().contains(interest)) {
+                        commonInterestUsers.add(vote.getUser());
+                    }
+                }
+                if (commonInterestUsers.size() > 1) {
+                    sameInterestUsers.put(interest, commonInterestUsers);
+                }
+            }
+            mapOfOptionsWithSameInterests.put(option, sameInterestUsers);
+        }
+        return mapOfOptionsWithSameInterests;
+        // Block with for every option, find All users, sharing same Interest
     }
 }

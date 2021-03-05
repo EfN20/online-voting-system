@@ -43,11 +43,11 @@
                                 <span th:text="${option.getTitle()}">Option Title</span>
                                 <span class="badge bg-primary rounded-pill" th:text="${option.getVoteCount()}">0</span>
                             </div>
-                            <button th:disabled="${question.value}" type="submit">Vote</button>
+                            <button class="btn btn-primary w-25 my-2" th:disabled="${question.value}" type="submit">Vote</button>
                         </form>
                         <form th:method="GET" th:action="@{/questions/full-statistics}">
                             <input type="hidden" name="question" th:value="${question.key.getId()}"/>
-                            <button type="submit">Get full statistics of question</button>
+                            <button class="btn btn-primary w-50" type="submit">Get full statistics of question</button>
                         </form>
                     </div>
 

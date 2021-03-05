@@ -3,6 +3,7 @@ package kz.astanait.edu.votingsystem.contollers;
 import kz.astanait.edu.votingsystem.exceptions.UserNotFoundException;
 import kz.astanait.edu.votingsystem.models.Option;
 import kz.astanait.edu.votingsystem.models.Question;
+import kz.astanait.edu.votingsystem.models.Role;
 import kz.astanait.edu.votingsystem.models.User;
 import kz.astanait.edu.votingsystem.models.Vote;
 import kz.astanait.edu.votingsystem.services.interfaces.GroupService;
@@ -17,6 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.util.Comparator;
@@ -123,5 +126,28 @@ public class MainController {
         }
 
         return questionBooleanMap;
+    }
+
+    @GetMapping("/admin/all-users")
+    public String getAllUsersPage(Model model) {
+        List<User> users = userService.findAll();
+        users = users.stream()
+                .sorted(Comparator.comparingLong(User::getId))
+                .collect(Collectors.toList());
+
+        List<Role> roles = roleService.findAll();
+        roles = roles.stream()
+                .sorted(Comparator.comparingLong(Role::getId))
+                .collect(Collectors.toList());
+
+        model.addAttribute("users", users);
+        model.addAttribute("roles", roles);
+        return "all-users";
+    }
+
+    @PatchMapping("/admin/role-update")
+    public String updateUserRole(@RequestParam("user") User user, @RequestParam("role") Role role) {
+        userService.updateUserRole(user, role);
+        return "redirect:/admin/all-users?success";
     }
 }

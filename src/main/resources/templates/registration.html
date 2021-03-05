@@ -16,35 +16,35 @@
             </div>
 
             <label for="firstName" class="visually-hidden">First Name</label>
-            <input type="text" id="firstName" name="firstName" th:field="*{firstName}" class="form-control" placeholder="First Name" required autofocus>
+            <input type="text" id="firstName" name="firstName" th:field="*{firstName}" class="form-control my-1" placeholder="First Name" required autofocus>
 
             <label for="lastName" class="visually-hidden">Last name</label>
-            <input type="text" id="lastName" name="lastName" th:field="*{lastName}" class="form-control" placeholder="Last name" required>
+            <input type="text" id="lastName" name="lastName" th:field="*{lastName}" class="form-control my-1" placeholder="Last name" required>
 
             <label for="nickname" class="visually-hidden">Nickname</label>
-            <input type="text" id="nickname" name="nickname" th:field="*{nickname}" class="form-control" placeholder="Nickname" required>
+            <input type="text" id="nickname" name="nickname" th:field="*{nickname}" class="form-control my-1" placeholder="Nickname" required>
 
             <label for="email" class="visually-hidden">Email</label>
-            <input type="email" id="email" name="email" th:field="*{email}" class="form-control" placeholder="Email" required>
+            <input type="email" id="email" name="email" th:field="*{email}" class="form-control my-1" placeholder="Email" required>
 
             <label for="group" class="visually-hidden">Group</label>
-            <select id="group" name="group" th:field="*{group}" class="form-control" required>
+            <select id="group" name="group" th:field="*{group}" class="form-control my-1" required>
                 <option value="">Choose your group</option>
                 <option th:each="group : ${groups}" th:value="${group.getId()}" th:text="${group.getName()}">Group name</option>
             </select>
 
             <label for="interests" class="visually-hidden">Interests</label>
-            <select id="interests" name="interests" th:field="*{interests}" class="form-control" required multiple>
+            <select id="interests" name="interests" th:field="*{interests}" class="form-control my-1" required multiple>
                 <option th:each="interest : ${interests}" th:value="${interest.getId()}" th:text="${interest.getName()}">Interest name</option>
             </select>
 
             <label for="age" class="visually-hidden">Age</label>
-            <input type="number" id="age" name="age" th:field="*{age}" class="form-control" placeholder="Age" required>
+            <input type="number" id="age" name="age" th:field="*{age}" class="form-control my-1" placeholder="Age" required>
 
             <label for="password" class="visually-hidden">Password</label>
-            <input type="password" id="password" name="password" th:field="*{password}" class="form-control" placeholder="Password" required>
+            <input type="password" id="password" name="password" th:field="*{password}" class="form-control my-1" placeholder="Password" required>
 
-            <button class="w-100 btn btn-lg btn-success" type="submit">Sign up</button>
+            <button class="w-100 btn btn-lg btn-success my-1" type="submit">Sign up</button>
         </form>
     </main>
 </body>

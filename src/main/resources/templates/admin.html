@@ -22,29 +22,29 @@
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                 </div>
                 <ul class="list-group list-group-flush" th:each="option : ${question.key.getOptions()}">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <form th:method="PUT" th:action="@{/options}" class="form-check-inline float-sm-start w-100">
+                    <li class="list-group-item d-flex align-items-center">
+                        <form th:method="PUT" th:action="@{/options}" class="form-check-inline w-100 d-flex justify-content-between">
                             <input type="hidden" name="option" th:value="${option.getId()}">
                             <label>
-                                <input class="rounded-2" type="text" name="title" th:value="${option.getTitle()}">
+                                <input class="form-control" type="text" name="title" th:value="${option.getTitle()}">
                             </label>
-                            <button class="btn-success btn-sm float-sm-end my-auto">Save</button>
+                            <button class="btn-success btn-sm my-auto">Save</button>
                         </form>
 
-                        <form th:method="DELETE" th:action="@{/options}" class="form-check-inline float-sm-end">
+                        <form th:method="DELETE" th:action="@{/options}" class="form-check-inline">
                             <input type="hidden" name="option" th:value="${option.getId()}">
                             <button class="btn-danger btn-sm">Delete</button>
                         </form>
                     </li>
                 </ul>
                 <div class="card-body">
-                    <p class="card-text">Create new option</p>
-                    <form th:method="POST" th:action="@{/options}" class="form-check-inline float-sm-start w-100">
+                    <p class="card-text m-0 mb-2">Create new option</p>
+                    <form th:method="POST" th:action="@{/options}" class="form-check-inline w-100 d-flex justify-content-between">
                         <input type="hidden" name="question" th:value="${question.getKey().getId()}">
                         <label>
-                            <input class="rounded-2" type="text" name="title">
+                            <input class="form-control" type="text" name="title">
                         </label>
-                        <button class="btn-secondary btn-sm float-sm-end w-25">Create</button>
+                        <button style="width: 23%;" class="btn-secondary btn-sm my-auto mx-3">Create</button>
                     </form>
                 </div>
             </div>

@@ -4,6 +4,7 @@ import kz.astanait.edu.votingsystem.exceptions.UserNotFoundException;
 import kz.astanait.edu.votingsystem.models.Authority;
 import kz.astanait.edu.votingsystem.models.Group;
 import kz.astanait.edu.votingsystem.models.Interest;
+import kz.astanait.edu.votingsystem.models.Role;
 import kz.astanait.edu.votingsystem.models.User;
 import kz.astanait.edu.votingsystem.repositories.GroupRepository;
 import kz.astanait.edu.votingsystem.repositories.UserRepository;
@@ -70,6 +71,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public List<User> findUsersByGroup(Group group) {
         return userRepository.findUsersByGroup(group);
+    }
+
+    @Transactional
+    @Override
+    public void updateUserRole(User user, Role role) {
+        user.setRole(role);
     }
 
     @Override

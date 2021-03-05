@@ -4,7 +4,6 @@ import kz.astanait.edu.votingsystem.exceptions.RoleNotFoundException;
 import kz.astanait.edu.votingsystem.exceptions.UserNotFoundException;
 import kz.astanait.edu.votingsystem.models.Group;
 import kz.astanait.edu.votingsystem.models.Interest;
-import kz.astanait.edu.votingsystem.models.Role;
 import kz.astanait.edu.votingsystem.models.User;
 import kz.astanait.edu.votingsystem.services.interfaces.GroupService;
 import kz.astanait.edu.votingsystem.services.interfaces.InterestService;
@@ -20,7 +19,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -79,6 +77,7 @@ public class UsersController {
     public String create(Model model, @ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("groups", groupService.findAll());
+            model.addAttribute("interests", interestService.findAll());
             return "registration";
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));

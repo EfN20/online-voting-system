@@ -80,6 +80,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public List<User> findUsersByInterestsContains(Interest interest) {
+        return userRepository.findUsersByInterestsContains(interest);
+    }
+
+    @Override
     public User findById(Long id) {
         return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }

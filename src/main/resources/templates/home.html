@@ -22,7 +22,7 @@
             <div th:each="question : ${questions}" class="col">
                 <div class="card">
                     <div class="card-header">
-                        Question
+                        <a th:href="@{/questions/full-statistics/{id}(id = ${question.key.getId()})}" class="btn-outline-info" type="submit">Get full statistics of question</a>
                     </div>
 
                     <div class="card-body">
@@ -43,12 +43,12 @@
                                 <span th:text="${option.getTitle()}">Option Title</span>
                                 <span class="badge bg-primary rounded-pill" th:text="${option.getVoteCount()}">0</span>
                             </div>
-                            <button class="btn btn-primary w-25 my-2" th:disabled="${question.value}" type="submit">Vote</button>
+                            <button class="btn btn-primary w-100 my-2" th:disabled="${question.value}" type="submit">Vote</button>
                         </form>
-                        <form th:method="GET" th:action="@{/questions/full-statistics}">
-                            <input type="hidden" name="question" th:value="${question.key.getId()}"/>
-                            <button class="btn btn-primary w-50" type="submit">Get full statistics of question</button>
-                        </form>
+<!--                        <form th:method="GET" th:action="@{/questions/full-statistics}">-->
+<!--                            <input type="hidden" name="question" th:value="${question.key.getId()}"/>-->
+<!--                            <button class="btn btn btn-outline-info w-50" type="submit">Get full statistics of question</button>-->
+<!--                        </form>-->
                     </div>
 
                     <div class="card-footer text-muted" th:text="${question.key.getVoteCount()}"></div>

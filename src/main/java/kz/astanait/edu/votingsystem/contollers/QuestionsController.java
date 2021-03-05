@@ -106,39 +106,7 @@ public class QuestionsController {
             }
         });
 
-//Interest
-/*
-        Map<Option, Map<Interest, List<User>>> usersCommonInterest = new LinkedHashMap<>();
-
-        Set<Interest> sortedInterests = user.getInterests().stream()
-                .sorted(Comparator.comparingLong(Interest::getId))
-                .collect(Collectors.toCollection(LinkedHashSet::new));
-        user.setInterests(sortedInterests);
-
-//        Set<User> usersWithSameInterest = new LinkedHashSet<>();
-
-        user.getInterests().forEach(interest -> {
-            List<User> usersWithSameInterest = userService.findUsersByInterestsContains(interest);
-                question.getOptions().forEach(option -> {
-                    List<User> sameVotedUsers = new ArrayList<>();
-                    List<Vote> votes = voteService.findVotesByQuestionAndOption(question, option);
-
-                    votes.stream()
-                            .filter(vote -> usersWithSameInterest.contains(vote.getUser()))
-                            .collect(Collectors.toList())
-                            .forEach(vote -> sameVotedUsers.add(vote.getUser()));
-
-                    if (!sameVotedUsers.isEmpty()) {
-                        Map<Interest, List<User>> interestListMap = new LinkedHashMap<>();
-                        interestListMap.put(interest, sameVotedUsers);
-                        usersCommonInterest.put(option, interestListMap);
-                    }
-                });
-        });
-*/
-
         // Block with for every option, find All users, sharing same Interest
-        List<Interest> allInterest = interestService.findAll();
         Map<Option, Map<Interest, Set<User>>> usersCommonInterest = new LinkedHashMap<>();
         // For every Option of Question
         for (Option option : question.getOptions()) {
@@ -150,7 +118,7 @@ public class QuestionsController {
             // Find votes for every Option
             List<Vote> votes = voteService.findVotesByQuestionAndOption(question, option);
             // For every Interest
-            for (Interest interest : allInterest) {
+            for (Interest interest : user.getInterests()) {
                 // If this interest have 1 or less users, exit loop
                 if (interest.getUsers().size() <= 1) {
                     continue;
@@ -166,7 +134,8 @@ public class QuestionsController {
                     sameInterestUsers.put(interest, commonInterestUsers);
                 }
             }
-            usersCommonInterest.put(option, sameInterestUsers);
+            if (sameInterestUsers.size() > 0)
+                usersCommonInterest.put(option, sameInterestUsers);
         }
         // Block with for every option, find All users, sharing same Interest
 

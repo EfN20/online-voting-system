@@ -49,6 +49,12 @@ public class VoteServiceImpl implements VoteService {
         voteRepository.deleteAllByOption(option);
     }
 
+    @Transactional
+    @Override
+    public void deleteAllByQuestion(Question question) {
+        voteRepository.deleteAllByQuestion(question);
+    }
+
     @Override
     public Vote findById(Long id) {
         return voteRepository.findById(id).orElseThrow(VoteNotFoundException::new);

@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/admin/**", "/options/**", "/all-users").hasRole("ADMIN")
+                .antMatchers("/admin/**", "/options/**", "/all-users", "/question/*", "/roles/**").hasRole("ADMIN")
                 .antMatchers("/registration").permitAll()
                 .antMatchers(HttpMethod.POST, "/users").permitAll()
                 .antMatchers("/users/**").hasAuthority("users:update-self-profile")

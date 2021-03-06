@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Roles</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap/bootstrap.min.css}">
+</head>
+<body>
+<div th:insert="~{includes/header :: header}"></div>
+
+    <div th:if="${param.success}" class="alert alert-success w-25 mx-auto text-center">
+        Success!
+    </div>
+
+    <main class="container my-5">
+        <div class="row mx-auto w-75 border-bottom border-dark">
+            <div class="col-1 mb-2">ID</div>
+            <div class="col mb-2">Name</div>
+            <div class="col mb-2">Authorities</div>
+            <div class="col mb-2">Button</div>
+        </div>
+        <div class="py-2" th:each="role : ${roles}">
+            <form class="row mx-auto w-75 border-bottom"
+                  th:method="PUT" th:action="@{/roles}">
+                <div class="col-1" th:text="${role.getId()}">ID</div>
+
+                <label class="col">
+                    <input class="form-control" name="name" th:value="${role.getName()}"/>
+                </label>
+
+                <label class="col">
+                    <select name="authorities" class="form-control h-75" required multiple>
+                        <option th:each="authority : ${authorities}"
+                                th:value="${authority.getId()}"
+                                th:text="${authority.getName()}"
+                                th:selected="${role.getAuthorities().contains(authority)}">
+                            Authority name
+                        </option>
+                    </select>
+                    <input type="hidden" name="role" th:value="${role.getId()}">
+                </label>
+                <div class="col">
+                    <button class=" btn btn-primary btn-sm h-50 w-50" type="submit">Update Role</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

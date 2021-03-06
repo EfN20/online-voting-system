@@ -14,12 +14,30 @@
         Success!
     </div>
 
+    <div class="card  w-50 mx-auto mt-5">
+        <div class="card-body">
+            <h5 class="card-title m-0 mb-2">Create new question</h5>
+            <form th:method="PUT" th:action="@{/questions}" class="form-check-inline w-100 d-flex justify-content-between">
+                <label>
+                    <input class="form-control" type="text" name="title">
+                </label>
+                <button style="width: 23%;" class="btn-secondary btn-sm my-auto mx-3">Create</button>
+            </form>
+        </div>
+    </div>
+
     <div class="row p-5 row-cols-1 row-cols-md-2 g-4">
         <div th:each="question : ${questions}" class="col">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${question.key.getTitle()}">Question Title</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <div class="d-flex justify-content-between">
+                        <h5 class="card-title" th:text="${question.key.getTitle()}">Question Title</h5>
+                        <form th:method="DELETE" th:action="@{/questions}" class="form-check-inline">
+                            <input type="hidden" name="question" th:value="${question.key.getId()}">
+                            <button class="btn-danger btn-sm">Delete</button>
+                        </form>
+                    </div>
+                    <p class="card-text mt-2">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                 </div>
                 <ul class="list-group list-group-flush" th:each="option : ${question.key.getOptions()}">
                     <li class="list-group-item d-flex align-items-center">

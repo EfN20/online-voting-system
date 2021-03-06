@@ -6,7 +6,6 @@ import kz.astanait.edu.votingsystem.models.Group;
 import kz.astanait.edu.votingsystem.models.Interest;
 import kz.astanait.edu.votingsystem.models.Role;
 import kz.astanait.edu.votingsystem.models.User;
-import kz.astanait.edu.votingsystem.repositories.GroupRepository;
 import kz.astanait.edu.votingsystem.repositories.UserRepository;
 import kz.astanait.edu.votingsystem.services.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +25,10 @@ import java.util.Set;
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
-    private final GroupRepository groupRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, GroupRepository groupRepository) {
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.groupRepository = groupRepository;
     }
 
     @Override

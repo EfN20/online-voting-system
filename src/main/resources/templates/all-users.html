@@ -31,14 +31,16 @@
                     <td th:text="${user.getNickname()}">Nickname</td>
                     <td th:text="${user.getEmail()}">Email</td>
                     <td>
-                        <form th:method="PATCH" th:action="@{/admin/role-update}">
-                            <select name="role">
-                                <option th:each="role : ${roles}"
-                                        th:value="${role.getId()}"
-                                        th:text="${role.getName()}"
-                                        th:selected="${role.getId() == user.getRole().getId()} ? true">Role
-                                </option>
-                            </select>
+                        <form th:method="PUT" th:action="@{/admin/update-role}">
+                            <label>
+                                <select name="role">
+                                    <option th:each="role : ${roles}"
+                                            th:value="${role.getId()}"
+                                            th:text="${role.getName()}"
+                                            th:selected="${role.getId() == user.getRole().getId()} ? true">Role
+                                    </option>
+                                </select>
+                            </label>
                             <input type="hidden" th:value="${user.getId()}" name="user" />
                             <button class="btn btn-primary btn-sm" type="submit">Update Role</button>
                         </form>

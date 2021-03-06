@@ -19,13 +19,13 @@ import javax.persistence.Table;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-
 @Entity
 @Data
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Table(name = "questions")
 public class Question {
+
     @Id
     @SequenceGenerator(
             name = "questions_sequence",

@@ -50,9 +50,9 @@ public class UsersController {
     private final VoteService voteService;
 
     @Autowired
-    public UsersController(UserService userService, RoleService roleService, GroupService groupService,
-                           InterestService interestService, PasswordEncoder passwordEncoder,
-                           VoteService voteService) {
+    public UsersController(UserService userService, RoleService roleService,
+                           GroupService groupService, InterestService interestService,
+                           PasswordEncoder passwordEncoder, VoteService voteService) {
         this.userService = userService;
         this.roleService = roleService;
         this.groupService = groupService;
@@ -119,7 +119,7 @@ public class UsersController {
             return "error/500";
         }
         SecurityContextHolder.clearContext();
-        return "redirect:/users/edit?success";
+        return "redirect:/users";
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
@@ -129,5 +129,4 @@ public class UsersController {
         redirectAttributes.addFlashAttribute("errors", e.getConstraintViolations());
         return String.format("redirect:%s?error", request.getRequestURI());
     }
-
 }

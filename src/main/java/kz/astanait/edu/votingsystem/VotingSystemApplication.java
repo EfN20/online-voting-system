@@ -7,7 +7,6 @@ import kz.astanait.edu.votingsystem.models.Option;
 import kz.astanait.edu.votingsystem.models.Question;
 import kz.astanait.edu.votingsystem.models.Role;
 import kz.astanait.edu.votingsystem.models.User;
-import kz.astanait.edu.votingsystem.models.Vote;
 import kz.astanait.edu.votingsystem.repositories.GroupRepository;
 import kz.astanait.edu.votingsystem.repositories.InterestRepository;
 import kz.astanait.edu.votingsystem.repositories.QuestionRepository;
@@ -196,6 +195,32 @@ public class VotingSystemApplication {
 			question2.setOptions(Set.of(option5, option6, option7, option8));
 
 			questionRepository.saveAll(List.of(question1, question2));
+
+//			List<User> users = new ArrayList<>();
+//			Set<Option> options = new HashSet<>();
+//			List<Vote> votes = new ArrayList<>();
+//			for (int i = 0; i < 1000; i++) {
+//				User user = new User(
+//						String.format("fsdfsdfsdffsd%s", i),
+//						String.format("dsffsdfadfsdf%s", i),
+//						String.format("sdfdsffsd%s", i),
+//						String.format("sfsdf@dfsf.com%s", i),
+//						group1,
+//						18,
+//						String.format("fsdsdffsdf%s", i),
+//						userRole
+//				);
+//				Option option = new Option(String.valueOf(i), 0L);
+//				options.add(option);
+//				users.add(user);
+//				votes.add(new Vote(user, option, question2));
+//			}
+//
+//			question2.setOptions(options);
+//
+//			userRepository.saveAll(users);
+//			questionRepository.saveAll(List.of(question1, question2));
+//			voteRepository.saveAll(votes);
 
 			// Set of TEST VOTE
 //			Vote vote1 = new Vote(user2, option2, question1);

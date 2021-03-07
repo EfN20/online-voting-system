@@ -1,49 +1,58 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>All Roles</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap/bootstrap.min.css}" crossorigin="anonymous">
 </head>
 <body>
 <div th:insert="~{includes/header :: header}"></div>
 
-    <div th:if="${param.success}" class="alert alert-success w-25 mx-auto text-center">
-        Success!
-    </div>
+<div th:if="${param.success}" class="alert alert-success w-25 mx-auto text-center">
+    Success!
+</div>
 
-    <main class="container my-5">
-        <div class="row mx-auto w-75 border-bottom border-dark">
-            <div class="col-1 mb-2">ID</div>
-            <div class="col mb-2">Name</div>
-            <div class="col mb-2">Authorities</div>
-            <div class="col mb-2">Button</div>
-        </div>
-        <div class="py-2" th:each="role : ${roles}">
-            <form class="row mx-auto w-75 border-bottom"
-                  th:method="PUT" th:action="@{/roles}">
-                <div class="col-1" th:text="${role.getId()}">ID</div>
-
-                <label class="col">
-                    <input class="form-control" name="name" th:value="${role.getName()}"/>
+<main class="container">
+    <div class="card  w-50 mx-auto mt-5">
+        <div class="card-body">
+            <h5 class="card-title m-0 mb-2">Create new Role</h5>
+            <form th:method="PUT" th:action="@{/roles/create}"
+                  class="form-check-inline w-100 d-flex justify-content-between">
+                <label>
+                    <input class="form-control" type="text" name="roleName">
                 </label>
-
-                <label class="col">
-                    <select name="authorities" class="form-control h-75" required multiple>
-                        <option th:each="authority : ${authorities}"
-                                th:value="${authority.getId()}"
-                                th:text="${authority.getName()}"
-                                th:selected="${role.getAuthorities().contains(authority)}">
-                            Authority name
-                        </option>
-                    </select>
-                    <input type="hidden" name="role" th:value="${role.getId()}">
-                </label>
-                <div class="col">
-                    <button class=" btn btn-primary btn-sm h-50 w-50" type="submit">Update Role</button>
-                </div>
+                <button class="btn-primary btn-sm my-auto w-25 mx-3">Create</button>
             </form>
         </div>
-    </main>
+    </div>
+    <div class="mt-5">
+        <div class="row">
+            <div class="col-sm-3 my-1" th:each="role : ${roles}">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <form th:method="PUT" th:action="@{/roles}">
+                            <h5 class="card-title" th:text="${role.getId()}"></h5>
+                            <input class="mt-2 form-control" name="name" th:value="${role.getName()}"/>
+                            <select name="authorities" class="form-control h-50" required multiple>
+                                <option th:each="authority : ${authorities}"
+                                        th:value="${authority.getId()}"
+                                        th:text="${authority.getName()}"
+                                        th:selected="${role.getAuthorities().contains(authority)}">
+                                    Authority name
+                                </option>
+                            </select>
+                            <input type="hidden" name="role" th:value="${role.getId()}">
+                            <button class="mt-2 btn btn-success btn-sm h-100 w-100" type="submit">Update</button>
+                        </form>
+                        <form class="mt-2" th:method="DELETE" th:action="@{/roles}">
+                            <input type="hidden" name="role" th:value="${role.getId()}">
+                            <button class=" btn btn-danger btn-sm h-100 w-100" type="submit">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 </body>
 </html>

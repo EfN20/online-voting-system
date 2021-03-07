@@ -71,4 +71,10 @@ public class QuestionServiceImpl implements QuestionService {
         Question question = questionRepository.findQuestionByOptionsContaining(option).orElseThrow(QuestionNotFoundException::new);
         question.removeOption(option);
     }
+
+    @Transactional
+    @Override
+    public void updateQuestion(Question question, String newTitle) {
+        question.setTitle(newTitle);
+    }
 }

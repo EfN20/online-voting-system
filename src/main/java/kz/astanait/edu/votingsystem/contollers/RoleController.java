@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Set;
 
 @Slf4j
@@ -37,6 +38,12 @@ public class RoleController {
 
     @DeleteMapping
     public String deleteRole(@RequestParam("role") Role role) {
+        List<User> allUsers = userService.findAll();
+        for (User user : allUsers) {
+            if (user.getRole().equals(role)) {
+                return "redirect:/admin/roles?error";
+            }
+        }
         roleService.delete(role);
         return "redirect:/admin/roles?success";
     }

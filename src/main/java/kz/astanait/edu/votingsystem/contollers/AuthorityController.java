@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,11 +42,11 @@ public class AuthorityController {
 
     @PutMapping
     public String updateAuthority(@RequestParam("authority") Authority authority,
-                                  @RequestParam("name") String oldName,
+                                  @RequestParam("name") String newName,
                                   Principal principal) {
         try {
             User currUser = userService.findUserByNickname(principal.getName());
-            authorityService.updateAuthorityDetails(authority.getName(), oldName);
+            authorityService.updateAuthority(authority, newName);
             for (Authority item : currUser.getRole().getAuthorities()) {
                 if (item.equals(authority)) {
                     SecurityContextHolder.clearContext();
@@ -58,7 +59,7 @@ public class AuthorityController {
         return "redirect:/admin/authorities?success";
     }
 
-    @PutMapping("/create")
+    @PostMapping
     public String createNewAuthority(@RequestParam("authorityName") String authorityName) {
         authorityService.save(new Authority(authorityName));
         return "redirect:/admin/authorities?success";

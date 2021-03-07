@@ -26,13 +26,6 @@ public class AuthorityServiceImpl implements AuthorityService {
         return authorityRepository.findById(id).orElseThrow(AuthorityNotFoundException::new);
     }
 
-    @Transactional
-    @Override
-    public void updateAuthorityDetails(String oldName, String newName) throws RoleNotFoundException {
-        Authority authority = authorityRepository.findAuthorityByName(oldName).orElseThrow(RoleNotFoundException::new);
-        authority.setName(newName);
-    }
-
     @Override
     public Authority save(Authority entity) {
         return authorityRepository.save(entity);
@@ -61,5 +54,11 @@ public class AuthorityServiceImpl implements AuthorityService {
     @Override
     public Authority findAuthorityByName(String name) throws AuthorityNotFoundException{
         return authorityRepository.findAuthorityByName(name).orElseThrow(AuthorityNotFoundException::new);
+    }
+
+    @Transactional
+    @Override
+    public void updateAuthority(Authority authority, String newName) {
+        authority.setName(newName);
     }
 }

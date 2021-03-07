@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -110,6 +111,13 @@ public class QuestionsController {
     @PutMapping
     public String createQuestion(@RequestParam("title") String title) {
         questionService.save(new Question(title, 0L));
+        return "redirect:/admin?success";
+    }
+
+    @PatchMapping
+    public String updateQuestion(@RequestParam("question") Question question,
+                                 @RequestParam("title") String newTitle) {
+        questionService.updateQuestion(question, newTitle);
         return "redirect:/admin?success";
     }
 }

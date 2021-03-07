@@ -12,6 +12,10 @@
     Success!
 </div>
 
+<div th:if="${param.error}" class="alert alert-danger w-25 mx-auto text-center">
+    Cannot delete role, there are user with such role!
+</div>
+
 <main class="container">
     <div class="card  w-50 mx-auto mt-5">
         <div class="card-body">

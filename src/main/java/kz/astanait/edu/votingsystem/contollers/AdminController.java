@@ -78,6 +78,12 @@ public class AdminController {
         return "all-roles";
     }
 
+    @GetMapping("/authorities")
+    public String getAuthoritiesPage(Model model) {
+        model.addAttribute("authorities", authorityService.findAll());
+        return "all-authorities";
+    }
+
     @GetMapping("/all-users")
     public String getAllUsersPage(Model model) {
         List<User> users = userService.findAll();
@@ -114,5 +120,4 @@ public class AdminController {
         }
         return "redirect:/admin/all-users?success";
     }
-
 }

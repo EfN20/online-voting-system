@@ -72,32 +72,36 @@ public class QuestionsController {
     }
 
     @GetMapping("/full-statistics/{id}")
-    public String getFullStatistics(@PathVariable("id") Question question, Model model, Principal principal) throws InterruptedException {
-        User currentUser = userService.findUserByNickname(principal.getName());
-        List<User> groupMates = userService.findUsersByGroup(currentUser.getGroup());
-
-        Map<Option, List<User>> usersVotedOptions = new LinkedHashMap<>();
-        Map<Option, Map<Interest, Set<User>>> allOptionMap = new LinkedHashMap<>();
-
-        ExecutorService executorService = Executors.newCachedThreadPool();
-
-        executorService.submit(() -> ControllerUtil.getUsersVotedOptions(question, usersVotedOptions, groupMates, voteService));
-        executorService.submit(() -> ControllerUtil.getMapByQuestionAllOption(question, allOptionMap, currentUser, voteService));
-
-        executorService.shutdownNow();
-
+    public String getFullStatistics(@PathVariable("id") Question question, Model model, Principal principal) {
         try {
-            if (!executorService.awaitTermination(5, TimeUnit.MINUTES)) {
+            User currentUser = userService.findUserByNickname(principal.getName());
+            List<User> groupMates = userService.findUsersByGroup(currentUser.getGroup());
+
+            Map<Option, List<User>> usersVotedOptions = new LinkedHashMap<>();
+            Map<Option, Map<Interest, Set<User>>> allOptionMap = new LinkedHashMap<>();
+
+            ExecutorService executorService = Executors.newCachedThreadPool();
+
+            executorService.submit(() -> ControllerUtil.getUsersVotedOptions(question, usersVotedOptions, groupMates, voteService));
+            executorService.submit(() -> ControllerUtil.getMapByQuestionAllOption(question, allOptionMap, currentUser, voteService));
+
+            executorService.shutdownNow();
+
+            try {
+                if (!executorService.awaitTermination(5, TimeUnit.MINUTES)) {
+                    return "error/500";
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
                 return "error/500";
             }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            model.addAttribute("question", question);
+            model.addAttribute("statisticsByGroupMates", usersVotedOptions);
+            model.addAttribute("statisticsByInterests", allOptionMap);
+        } catch (UserNotFoundException e) {
+            log.info(e.getMessage());
             return "error/500";
         }
-
-        model.addAttribute("question", question);
-        model.addAttribute("statisticsByGroupMates", usersVotedOptions);
-        model.addAttribute("statisticsByInterests", allOptionMap);
         return "questions/full-statistics";
     }
 

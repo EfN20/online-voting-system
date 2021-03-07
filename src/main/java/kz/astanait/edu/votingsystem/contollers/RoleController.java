@@ -4,7 +4,6 @@ import kz.astanait.edu.votingsystem.exceptions.RoleNotFoundException;
 import kz.astanait.edu.votingsystem.models.Authority;
 import kz.astanait.edu.votingsystem.models.Role;
 import kz.astanait.edu.votingsystem.models.User;
-import kz.astanait.edu.votingsystem.services.interfaces.AuthorityService;
 import kz.astanait.edu.votingsystem.services.interfaces.RoleService;
 import kz.astanait.edu.votingsystem.services.interfaces.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -26,14 +25,11 @@ import java.util.Set;
 public class RoleController {
     private final UserService userService;
     private final RoleService roleService;
-    private final AuthorityService authorityService;
 
     @Autowired
-    public RoleController(UserService userService, RoleService roleService,
-                          AuthorityService authorityService) {
+    public RoleController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
-        this.authorityService = authorityService;
     }
 
     @DeleteMapping

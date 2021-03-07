@@ -1,7 +1,6 @@
 package kz.astanait.edu.votingsystem.services;
 
 import kz.astanait.edu.votingsystem.exceptions.AuthorityNotFoundException;
-import kz.astanait.edu.votingsystem.exceptions.RoleNotFoundException;
 import kz.astanait.edu.votingsystem.models.Authority;
 import kz.astanait.edu.votingsystem.repositories.AuthorityRepository;
 import kz.astanait.edu.votingsystem.services.interfaces.AuthorityService;
@@ -49,11 +48,6 @@ public class AuthorityServiceImpl implements AuthorityService {
     @Override
     public List<Authority> findAll() {
         return authorityRepository.findAll();
-    }
-
-    @Override
-    public Authority findAuthorityByName(String name) throws AuthorityNotFoundException{
-        return authorityRepository.findAuthorityByName(name).orElseThrow(AuthorityNotFoundException::new);
     }
 
     @Transactional

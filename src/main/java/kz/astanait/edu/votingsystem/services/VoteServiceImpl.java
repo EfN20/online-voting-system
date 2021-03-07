@@ -24,11 +24,6 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
-    public Vote findVoteByUserAndOptionAndQuestion(User user, Option option, Question question) {
-        return voteRepository.findVoteByUserAndOptionAndQuestion(user,option,question).orElseThrow(VoteNotFoundException::new);
-    }
-
-    @Override
     public List<Vote> findTop5ByUserOrderByIdDesc(User user) {
         return voteRepository.findTop5ByUserOrderByIdDesc(user);
     }

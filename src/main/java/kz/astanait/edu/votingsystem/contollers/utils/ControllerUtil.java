@@ -19,7 +19,19 @@ import java.util.stream.Collectors;
 
 public class ControllerUtil {
 
-    public static Map<Question, Boolean> getQuestionBooleanMap(User user, QuestionService questionService, VoteService voteService) {
+    /**
+     * Method, which getting and sorting by Id all question,
+     * for each question, sorting their own option by Id.
+     *
+     * @param user Current signed User
+     * @param questionService to get All Question
+     * @param voteService to get All Votes
+     * @return Map, which as key containing Question and as value Boolean
+     * True if Current User voted for this Question
+     * False if Current User did not vote for this Question
+     */
+    public static Map<Question, Boolean> getQuestionBooleanMap(User user, QuestionService questionService,
+                                                               VoteService voteService) {
         List<Question> questionList = questionService.findAll();
 
         questionList = questionList.stream().
@@ -53,8 +65,19 @@ public class ControllerUtil {
         return questionBooleanMap;
     }
 
-    // Get Map for All Options
-    public static void getMapByQuestionAllOption(Question question, Map<Option, Map<Interest, Set<User>>> allOptionMap, User currentUser, VoteService voteService) {
+    /**
+     * Method, which finding all users,
+     * Who voted for this question,
+     * And mapping by Option and common Interests of Current User
+     * @param question Which statistics want to see
+     * @param allOptionMap Map, which contain Option,
+     *                     And Interest of Current User
+     *                     And sharing them Users
+     * @param currentUser Current signed User
+     * @param voteService To find all votes by Question and Option
+     */
+    public static void getMapByQuestionAllOption(Question question, Map<Option, Map<Interest, Set<User>>> allOptionMap,
+                                                 User currentUser, VoteService voteService) {
         // For every Option of Question
         for (Option option : question.getOptions()) {
             // If option has 1 or less vote, then no need to process this option
@@ -90,7 +113,17 @@ public class ControllerUtil {
         }
     }
 
-    public static void getUsersVotedOptions(Question question, Map<Option, List<User>> usersVotedOptions, List<User> groupMates, VoteService voteService) {
+    /**
+     * Method, which finding Group mates of Current User,
+     * And their voted Options for Question
+     * @param question Which statistics want to see
+     * @param usersVotedOptions Map, which contains Option,
+     *                          And Users, who voted for this Option
+     * @param groupMates Users, who is group mates for Current User
+     * @param voteService To find all votes by Question and Option
+     */
+    public static void getUsersVotedOptions(Question question, Map<Option, List<User>> usersVotedOptions,
+                                            List<User> groupMates, VoteService voteService) {
         Set<Option> sortedOptions = question.getOptions().stream()
                 .sorted(Comparator.comparingLong(Option::getId))
                 .collect(Collectors.toCollection(LinkedHashSet::new));

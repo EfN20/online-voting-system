@@ -2,12 +2,11 @@ package kz.astanait.edu.votingsystem.contollers;
 
 import kz.astanait.edu.votingsystem.contollers.utils.ControllerUtil;
 import kz.astanait.edu.votingsystem.exceptions.UserNotFoundException;
+import kz.astanait.edu.votingsystem.models.Authority;
 import kz.astanait.edu.votingsystem.models.Question;
 import kz.astanait.edu.votingsystem.models.Role;
 import kz.astanait.edu.votingsystem.models.User;
 import kz.astanait.edu.votingsystem.services.interfaces.AuthorityService;
-import kz.astanait.edu.votingsystem.services.interfaces.GroupService;
-import kz.astanait.edu.votingsystem.services.interfaces.InterestService;
 import kz.astanait.edu.votingsystem.services.interfaces.QuestionService;
 import kz.astanait.edu.votingsystem.services.interfaces.RoleService;
 import kz.astanait.edu.votingsystem.services.interfaces.UserService;
@@ -15,7 +14,6 @@ import kz.astanait.edu.votingsystem.services.interfaces.VoteService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,22 +37,15 @@ public class AdminController {
     private final UserService userService;
     private final RoleService roleService;
     private final AuthorityService authorityService;
-    private final GroupService groupService;
-    private final InterestService interestService;
-    private final PasswordEncoder passwordEncoder;
     private final VoteService voteService;
     private final QuestionService questionService;
 
     @Autowired
     public AdminController(UserService userService, RoleService roleService, AuthorityService authorityService,
-                           GroupService groupService, InterestService interestService, PasswordEncoder passwordEncoder,
                            VoteService voteService, QuestionService questionService) {
         this.userService = userService;
         this.roleService = roleService;
         this.authorityService = authorityService;
-        this.groupService = groupService;
-        this.interestService = interestService;
-        this.passwordEncoder = passwordEncoder;
         this.voteService = voteService;
         this.questionService = questionService;
     }
@@ -73,14 +64,50 @@ public class AdminController {
 
     @GetMapping("/roles")
     public String getRolesPage(Model model) {
-        model.addAttribute("roles", roleService.findAll());
-        model.addAttribute("authorities", authorityService.findAll());
+        List<Role> allRoles = roleService.findAll();
+        List<Authority> allAuthorities = authorityService.findAll();
+
+        ExecutorService executorService = Executors.newCachedThreadPool();
+
+        executorService.submit(() -> allRoles.sort((Comparator.comparing(Role::getId))));
+        executorService.submit(() -> allAuthorities.sort((Comparator.comparing(Authority::getId))));
+
+        executorService.shutdownNow();
+
+        try {
+            if (!executorService.awaitTermination(5, TimeUnit.MINUTES)) {
+                return "error/500";
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return "error/500";
+        }
+
+        model.addAttribute("roles", allRoles);
+        model.addAttribute("authorities", allAuthorities);
         return "all-roles";
     }
 
     @GetMapping("/authorities")
     public String getAuthoritiesPage(Model model) {
-        model.addAttribute("authoritiesOur", authorityService.findAll());
+        List<Authority> allAuthorities = authorityService.findAll();
+
+        ExecutorService executorService = Executors.newCachedThreadPool();
+
+        executorService.submit(() -> allAuthorities.sort((Comparator.comparing(Authority::getId))));
+
+        executorService.shutdownNow();
+
+        try {
+            if (!executorService.awaitTermination(5, TimeUnit.MINUTES)) {
+                return "error/500";
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return "error/500";
+        }
+
+        model.addAttribute("authoritiesOur", allAuthorities);
         return "all-authorities";
     }
 

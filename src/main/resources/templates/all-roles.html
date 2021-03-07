@@ -13,13 +13,13 @@
 </div>
 
 <div th:if="${param.error}" class="alert alert-danger w-25 mx-auto text-center">
-    Cannot delete role, there are user with such role!
+    Cannot delete role, there are user(s) with such role!
 </div>
 
 <main class="container">
     <div class="card  w-50 mx-auto mt-5">
         <div class="card-body">
-            <h5 class="card-title m-0 mb-2">Create new Role</h5>
+            <h5 class="card-title m-0 mb-2">Create new role</h5>
             <form th:method="PUT" th:action="@{/roles/create}"
                   class="form-check-inline w-100 d-flex justify-content-between">
                 <label>

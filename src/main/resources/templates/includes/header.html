@@ -18,10 +18,13 @@
                         <a class="nav-link" th:href="@{/admin}">Questions and Options</a>
                     </li>
                     <li class="nav-item mx-2" sec:authorize="hasRole('ADMIN')">
-                        <a class="nav-link" th:href="@{/admin/all-users}">Role page</a>
+                        <a class="nav-link" th:href="@{/admin/all-users}">Users and Roles</a>
                     </li>
                     <li class="nav-item mx-2" sec:authorize="hasRole('ADMIN')">
-                        <a class="nav-link" th:href="@{/admin/roles}">Roles and Authorities</a>
+                        <a class="nav-link" th:href="@{/admin/roles}">Roles Page</a>
+                    </li>
+                    <li class="nav-item mx-2" sec:authorize="hasRole('ADMIN')">
+                        <a class="nav-link" th:href="@{/admin/authorities}">Authorities Page</a>
                     </li>
                 </ul>
                 <a th:href="@{/logout}" class="d-flex btn btn-outline-success mx-2">

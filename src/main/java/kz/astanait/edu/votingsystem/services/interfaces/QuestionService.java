@@ -8,4 +8,5 @@ public interface QuestionService extends GenericService<Question> {
     void increaseVoteCount(Question question);
     void addOption(Question question, Option option);
     void deleteOption(Option option);
+    void updateQuestion(Question question, String newTitle);
 }

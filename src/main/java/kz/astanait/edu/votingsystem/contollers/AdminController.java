@@ -80,7 +80,7 @@ public class AdminController {
 
     @GetMapping("/authorities")
     public String getAuthoritiesPage(Model model) {
-        model.addAttribute("authorities", authorityService.findAll());
+        model.addAttribute("authoritiesOur", authorityService.findAll());
         return "all-authorities";
     }
 

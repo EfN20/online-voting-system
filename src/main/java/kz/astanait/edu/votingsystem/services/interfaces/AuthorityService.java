@@ -4,5 +4,5 @@ import kz.astanait.edu.votingsystem.models.Authority;
 
 public interface AuthorityService extends GenericService<Authority> {
     Authority findAuthorityByName(String name);
-    void updateAuthorityDetails(String oldName, String newName);
+    void updateAuthority(Authority authority, String newName);
 }

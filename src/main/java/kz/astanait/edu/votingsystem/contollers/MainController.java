@@ -68,7 +68,6 @@ public class MainController {
             Map<Question, Boolean> questionBooleanMap = ControllerUtil.getQuestionBooleanMap(user, questionService, voteService);
             model.addAttribute("questions", questionBooleanMap);
 
-            // HADOOP
             Map<String, Integer> wordAndCount = new LinkedHashMap<>();
             try {
                 File checkInput = new File("src/main/java/kz/astanait/edu/votingsystem/hadoop/input");
@@ -140,7 +139,7 @@ public class MainController {
                     .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
             model.addAttribute("topWords", wordAndCount);
-            //HADOOP
+
         } catch (UserNotFoundException e) {
             log.info(e.getMessage());
             return "error/500";

@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap/bootstrap.min.css}" crossorigin="anonymous">
 </head>
 <body>
+
 <div th:insert="~{includes/header :: header}"></div>
 
 <div class="pricing-header pt-md-4 pb-md-4  mx-auto text-center">
@@ -21,7 +22,7 @@
 </div>
 
 <main class="container">
-    <div class="card  w-50 mx-auto mt-5">
+    <div class="card w-50 mx-auto mt-5">
         <div class="card-body">
             <h5 class="card-title m-0 mb-2">Create new role</h5>
             <form th:method="PUT" th:action="@{/roles/create}"
@@ -29,10 +30,11 @@
                 <label>
                     <input class="form-control" type="text" name="roleName">
                 </label>
-                <button class="btn-primary btn-sm my-auto w-25 mx-3">Create</button>
+                <button class="btn-secondary btn-sm my-auto w-25 mx-3">Create</button>
             </form>
         </div>
     </div>
+
     <div class="mt-5">
         <div class="row">
             <div class="col-sm-3 my-1" th:each="role : ${roles}">
@@ -40,15 +42,19 @@
                     <div class="card-body text-center">
                         <form th:method="PUT" th:action="@{/roles}">
                             <h5 class="card-title" th:text="${role.getId()}"></h5>
-                            <input class="mt-2 form-control" name="name" th:value="${role.getName()}"/>
-                            <select name="authorities" class="form-control h-50" required multiple>
-                                <option th:each="authority : ${authorities}"
-                                        th:value="${authority.getId()}"
-                                        th:text="${authority.getName()}"
-                                        th:selected="${role.getAuthorities().contains(authority)}">
-                                    Authority name
-                                </option>
-                            </select>
+                            <label>
+                                <input class="mt-2 form-control" name="name" th:value="${role.getName()}"/>
+                            </label>
+                            <label>
+                                <select name="authorities" class="form-control h-50" required multiple>
+                                    <option th:each="authority : ${authorities}"
+                                            th:value="${authority.getId()}"
+                                            th:text="${authority.getName()}"
+                                            th:selected="${role.getAuthorities().contains(authority)}">
+                                        Authority name
+                                    </option>
+                                </select>
+                            </label>
                             <input type="hidden" name="role" th:value="${role.getId()}">
                             <button class="mt-2 btn btn-success btn-sm h-100 w-100" type="submit">Update</button>
                         </form>
@@ -61,6 +67,8 @@
             </div>
         </div>
     </div>
+
+    <div th:insert="~{includes/footer :: footer}"></div>
 </main>
 </body>
 </html>

@@ -138,7 +138,6 @@ public class QuestionsController {
         } catch (IOException e) {
             log.info("[HADOOP APPEND] " + e.getMessage());
         }
-        // HADOOP
 
         return "redirect:/admin?success";
     }

@@ -8,10 +8,13 @@
 <body>
 <div th:insert="~{includes/header :: header}"></div>
 
+<div class="pricing-header pt-md-4 pb-md-4  mx-auto text-center">
+    <h1 class="display-4 m-0">All Authorities Page</h1>
+</div>
+
 <div th:if="${param.success}" class="alert alert-success w-25 mx-auto text-center">
     Success!
 </div>
-
 
 <main class="container">
     <div class="card  w-50 mx-auto mt-5">
@@ -22,7 +25,7 @@
                 <label>
                     <input class="form-control" type="text" name="authorityName">
                 </label>
-                <button class="btn-primary btn-sm my-auto w-25 mx-3">Create</button>
+                <button class="btn-secondary btn-sm my-auto w-25 mx-3">Create</button>
             </form>
         </div>
     </div>
@@ -34,7 +37,9 @@
                         <form th:method="PUT" th:action="@{/authorities}">
                             <h5 class="card-title" th:text="${authority.getId()}"></h5>
                             <input type="hidden" name="authority" th:value="${authority.getId()}">
-                            <input class="mt-2 form-control" name="name" th:value="${authority.getName()}"/>
+                            <label>
+                                <input class="mt-2 form-control" name="name" th:value="${authority.getName()}"/>
+                            </label>
                             <button class="mt-2 btn btn-success btn-sm h-100 w-100" type="submit">Update</button>
                         </form>
                         <form class="mt-2" th:method="DELETE" th:action="@{/authorities}">
@@ -46,33 +51,8 @@
             </div>
         </div>
     </div>
+
+    <div th:insert="~{includes/footer :: footer}"></div>
 </main>
-
-<!--<main class="container my-5">-->
-<!--    <div class="row mx-auto w-75 border-bottom border-dark">-->
-<!--        <div class="col-1 mb-2">ID</div>-->
-<!--        <div class="col mb-2">Name</div>-->
-<!--        <div class="col mb-2"></div>-->
-<!--        <div class="col mb-2"></div>-->
-<!--    </div>-->
-<!--    <div class="py-2 row mx-auto w-75 border-bottom" th:each="authority : ${authorities}">-->
-<!--        <form th:method="PUT" th:action="@{/authorities}">-->
-<!--            <div class="col-1" th:text="${authority.getId()}">ID</div>-->
-
-<!--            <label class="col">-->
-<!--                <input class="form-control" name="name" th:value="${authority.getName()}"/>-->
-<!--            </label>-->
-<!--            <div class="col">-->
-<!--                <button class=" btn btn-primary btn-sm h-100 w-50" type="submit">Update Authority</button>-->
-<!--            </div>-->
-<!--        </form>-->
-<!--        <form th:method="DELETE" th:action="@{/authorities}">-->
-<!--            <div class="col">-->
-<!--                <input type="hidden" name="authority" th:value="${authority.getId()}">-->
-<!--                <button class=" btn btn-danger btn-sm h-100 w-50" type="submit">Delete Authority</button>-->
-<!--            </div>-->
-<!--        </form>-->
-<!--    </div>-->
-<!--</main>-->
 </body>
 </html>

@@ -180,11 +180,12 @@ public class VotingSystemApplication {
 			);
 
 			// Set of question
-			Question question1 = new Question("How years you old?",0L);
+			Question question1 = new Question("How you old?",0L);
 			Option option1 = new Option("12-18",0L);
 			Option option2 = new Option("18-24",0L);
 			Option option3 = new Option("24-30",0L);
 			Option option4 = new Option("Older than 30",0L);
+
 			question1.setOptions(Set.of(option1, option2, option3, option4));
 
 			Question question2 = new Question("Choose your specialty",0L);
@@ -250,49 +251,6 @@ public class VotingSystemApplication {
 			question1.setOptions(Set.of(option31, option32, option33));
 
 			questionRepository.saveAll(List.of(question1, question2, question3, question4, question5, question6, question7, question8, question9, question10));
-
-
-//			List<User> users = new ArrayList<>();
-//			Set<Option> options = new HashSet<>();
-//			List<Vote> votes = new ArrayList<>();
-//			for (int i = 0; i < 1000; i++) {
-//				User user = new User(
-//						String.format("fsdfsdfsdffsd%s", i),
-//						String.format("dsffsdfadfsdf%s", i),
-//						String.format("sdfdsffsd%s", i),
-//						String.format("sfsdf@dfsf.com%s", i),
-//						group1,
-//						18,
-//						String.format("fsdsdffsdf%s", i),
-//						userRole
-//				);
-//				Option option = new Option(String.valueOf(i), 0L);
-//				options.add(option);
-//				users.add(user);
-//				votes.add(new Vote(user, option, question2));
-//			}
-//
-//			question2.setOptions(options);
-//
-//			userRepository.saveAll(users);
-//			questionRepository.saveAll(List.of(question1, question2));
-//			voteRepository.saveAll(votes);
-
-			// Set of TEST VOTE
-//			Vote vote1 = new Vote(user2, option2, question1);
-//			Vote vote2 = new Vote(user3, option8, question2);
-//			Vote vote3 = new Vote(user2, option5, question2);
-//
-//			optionService.increaseOptionCount(option2);
-//			optionService.increaseOptionCount(option8);
-//			optionService.increaseOptionCount(option5);
-
-//			voteRepository.saveAll(List.of(vote1, vote2, vote3));
-//			List<User> users = userRepository.findUsersByInterestsContains(interest1);
-//			log.info(String.valueOf(users));
-//
-//			List<Vote> test = voteRepository.findTop5ByUserOrderByIdDesc(user2);
-//			test.forEach(vote -> log.info("\n" + vote + "\n"));
 		};
 	}
 }

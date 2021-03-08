@@ -1,14 +1,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <div th:fragment="header">
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
         <div class="container-fluid">
             <a class="navbar-brand" th:href="@{/home}">J'uVotes</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav mb-2 mb-md-0">
-                    <li class="nav-item active mx-2">
+            <div  class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                <ul id="navigation-ul" class="navbar-nav mb-2 mb-md-0">
+                    <li class="nav-item mx-2">
                         <a class="nav-link" aria-current="page" th:href="@{/users}">Profile</a>
                     </li>
                     <li class="nav-item mx-2">

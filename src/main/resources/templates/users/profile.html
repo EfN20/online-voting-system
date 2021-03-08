@@ -7,116 +7,71 @@
 </head>
 <body>
 
-<header th:insert="~{includes/header :: header}"></header>
+<div th:insert="~{includes/header :: header}"></div>
 
+<div class="pricing-header pt-md-4 pb-md-4  mx-auto text-center">
+    <h1 class="display-4 m-0">Profile Page</h1>
+</div>
 
-    <!--<div th:with="result = ${lastVotes.isEmpty()}">
-        <div th:if="${result}">
-            <p>You have no recent votes.</p>
+<main class="container mt-5 w-50">
+    <table class="table table-hover w-50">
+        <tbody>
+        <tr>
+            <td>First name</td>
+            <td th:text="${user.getFirstName()}"></td>
+        </tr>
+        <tr>
+            <td>Last name</td>
+            <td th:text="${user.getLastName()}"></td>
+        </tr>
+        <tr>
+            <td>Nickname</td>
+            <td th:text="${user.getNickname()}"></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td th:text="${user.getEmail()}"></td>
+        </tr>
+        <tr>
+            <td>Group</td>
+            <td th:text="${user.getGroup().getName()}"></td>
+        </tr>
+        <tr>
+            <td>Age</td>
+            <td th:text="${user.getAge()}"></td>
+        </tr>
+        <tr th:if="${user.getInterests().isEmpty()}">
+            <td>Interest</td>
+            <td>You have not chose interest.</td>
+        </tr>
+        <tr>
+            <td>
+                <a th:href="@{/users/edit}">Update profile</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="bd-example" th:unless="${user.getInterests().isEmpty()}">
+        <h1 class="btn btn-primary m-1 disabled" data-toggle="button"
+            th:each="interest : ${user.getInterests()}"
+            th:text="${interest.getName()}">
+        </h1>
+    </div>
+
+    <div class="my-3 p-3 bg-white rounded shadow-sm w-75" th:with="result = ${lastVotes.isEmpty()}">
+        <h6 class="border-bottom pb-2 mb-0" th:if="${result}">You have no recent votes</h6>
+        <h6 class="border-bottom pb-2 mb-0" th:unless="${result}">Recent votes:</h6>
+        <div class="text-muted pt-3" th:each="vote : ${lastVotes}">
+            <h5 class="d-block fw-bold text-gray-dark" th:text="|Question: ${vote.getQuestion().getTitle()}|">Question
+                Title</h5>
+            <p class="pb-3 mb-0 small lh-sm border-bottom" th:text="|Your vote: ${vote.getOption().getTitle()}|">
+                Option Title
+            </p>
         </div>
-        <div th:unless="${result}">
-            <p th:each="vote : ${lastVotes}" th:text="|Question: ${vote.getQuestion().getTitle()}, Answer: ${vote.getOption().getTitle()}|"></p>
-        </div>
-    </div>-->
+    </div>
 
-
-
-    <main class="container mt-5 w-50">
-        <table class="table table-hover w-50">
-            <tbody>
-                <tr>
-                    <td>First name</td>
-                    <td th:text="${user.getFirstName()}"></td>
-                </tr>
-                <tr>
-                    <td>Last name</td>
-                    <td th:text="${user.getLastName()}"></td>
-                </tr>
-                <tr>
-                    <td>Nickname</td>
-                    <td th:text="${user.getNickname()}"></td>
-                </tr>
-                <tr>
-                    <td>Email</td>
-                    <td th:text="${user.getEmail()}"></td>
-                </tr>
-                <tr>
-                    <td>Group</td>
-                    <td th:text="${user.getGroup().getName()}"></td>
-                </tr>
-                <tr>
-                    <td>Age</td>
-                    <td th:text="${user.getAge()}"></td>
-                </tr>
-                <tr th:if="${user.getInterests().isEmpty()}">
-                    <td>Interest</td>
-                    <td>You have not chose interest.</td>
-                </tr>
-                <tr>
-                    <td>
-                        <a th:href="@{/users/edit}">Update profile</a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="bd-example" th:unless="${user.getInterests().isEmpty()}" >
-            <h1 class="btn btn-primary m-1 disabled" data-toggle="button"
-                th:each="interest : ${user.getInterests()}"
-                th:text="${interest.getName()}">
-            </h1>
-        </div>
-        <!--<div th:text="|First name: ${user.getFirstName()}|">First name</div>
-        <div th:text="|Last name: ${user.getLastName()}|">Last name</div>
-        <div th:text="|Nickname: ${user.getNickname()}|">Nickname</div>
-        <div th:text="|Email: ${user.getEmail()}|">Email</div>
-        <div th:text="|Group: ${user.getGroup().getName()}|">Group</div>
-        <div th:text="|Age: ${user.getAge()}|">Age</div>
-        <div th:with="isInterest = ${user.getInterests().isEmpty()}">
-            <div th:if="${isInterest}">
-                <p class="m-0">You have not chose interest.</p>
-            </div>
-            <div th:unless="${isInterest}">
-                <p class="m-0">Interests: </p>
-                <p class="m-0" th:each="interest : ${user.getInterests()}" th:text="${interest.getName()}">Interest</p>
-            </div>
-        </div>
-        <div>
-            <a th:href="@{/users/edit}">Update profile</a>
-        </div>-->
-
-
-        <div class="my-3 p-3 bg-white rounded shadow-sm w-75" th:with="result = ${lastVotes.isEmpty()}">
-            <h6 class="border-bottom pb-2 mb-0" th:if="${result}">You have no recent votes</h6>
-            <h6 class="border-bottom pb-2 mb-0" th:unless="${result}">Recent votes:</h6>
-            <div class="text-muted pt-3" th:each="vote : ${lastVotes}">
-<!--                <svg class="bd-placeholder-img flex-shrink-0 mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" role="img" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"></rect><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>-->
-
-                <h5 class="d-block fw-bold text-gray-dark" th:text="|Question: ${vote.getQuestion().getTitle()}|">Question Title</h5>
-                <p class="pb-3 mb-0 small lh-sm border-bottom" th:text="|Your vote: ${vote.getOption().getTitle()}|">
-                    Option Title
-                </p>
-            </div>
-        </div>
-
-        <!--<div class="my-3 p-3 bg-white rounded shadow-sm">
-            <h6 class="border-bottom pb-2 mb-0">Suggestions</h6>
-            <div class="d-flex text-muted pt-3">
-                <svg class="bd-placeholder-img flex-shrink-0 mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" role="img" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"></rect><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
-
-                <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-                    <div class="d-flex justify-content-between">
-                        <strong class="text-gray-dark">Full Name</strong>
-                        <a href="#">Follow</a>
-                    </div>
-                    <span class="d-block">@username</span>
-                </div>
-            </div>
-
-
-            <small class="d-block text-right mt-3">
-                <a href="#">All suggestions</a>
-            </small>
-        </div>-->
-    </main>
+    <div th:insert="~{includes/footer :: footer}"></div>
+</main>
 </body>
 </html>

@@ -9,75 +9,115 @@
 
 <header th:insert="~{includes/header :: header}"></header>
 
-<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-4">Statistic Page</h1>
+<div class="pricing-header pt-md-4 pb-md-4  mx-auto text-center">
+    <h1 class="display-4 m-0">Statistics Page</h1>
 </div>
 
-
-<div class="bd-example container">
-    <h6 class="border-bottom pb-2 mb-0">Question overall result:</h6>
-    <h3 class="d-block fw-bold text-gray-dark" th:text="|Question: ${question.getTitle()}|">Question Title</h3>
+<main class="container">
     <div class="bd-example">
+        <h6 class="border-bottom pb-2 mb-0">Question overall result:</h6>
+        <h3 class="d-block fw-bold text-gray-dark" th:text="|Question: ${question.getTitle()}|">Question Title</h3>
+        <div class="bd-example">
 
-        <div th:each="option : ${question.getOptions()}">
-            <h5 class="card-text" th:text="${option.getTitle()}"></h5>
-            <div class="progress" style="height: 40px">
-                <div class="progress-bar bg-info" role="progressbar" style="height: 40px"
-                     th:with="percentage = 100*${option.getVoteCount()}/${question.getVoteCount() == 0 ? 1 : question.getVoteCount()}"
-                     th:style="'width:' + ${#numbers.formatDecimal(percentage, 0, 0)} + '%'" aria-valuenow="100"
-                     aria-valuemin="0"
-                     aria-valuemax="100" th:text="${#numbers.formatDecimal(percentage, 0, 0)} + '%'"></div>
+            <div th:each="option : ${question.getOptions()}">
+                <h5 class="card-text" th:text="${option.getTitle()}"></h5>
+                <div class="progress" style="height: 40px">
+                    <div class="progress-bar bg-info" role="progressbar" style="height: 40px"
+                         th:with="percentage = 100*${option.getVoteCount()}/${question.getVoteCount() == 0 ? 1 : question.getVoteCount()}"
+                         th:style="'width:' + ${#numbers.formatDecimal(percentage, 0, 0)} + '%'" aria-valuenow="100"
+                         aria-valuemin="0"
+                         aria-valuemax="100" th:text="${#numbers.formatDecimal(percentage, 0, 0)} + '%'"></div>
+                </div>
+            </div>
+            <p class="pb-3 mb-0 small lh-sm border-bottom" th:text="|Overall vote count: ${question.getVoteCount()}|">
+                Questions Vote Count
+            </p>
+        </div>
+    </div>
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">Matches</h1>
+    </div>
+        <div class="bd-example" role="tabpanel">
+            <div class="row">
+                <div class="col-4">
+                    <div class="list-group" id="list-tab" role="tablist">
+                        <a class="list-group-item list-group-item-action" id="list-groupMate-list" data-toggle="tab"
+                           href="#list-home" role="tab" aria-controls="list-home" aria-selected="false">
+                            Group Mates
+                        </a>
+                        <a class="list-group-item list-group-item-action" id="list-interest-list" data-toggle="tab"
+                           href="#list-profile" role="tab" aria-controls="list-profile"
+                           aria-selected="false">
+                            Interests
+                        </a>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+                            <h1> Group mates</h1>
+                            <div class="mt-3" th:if="${!statisticsByGroupMates.isEmpty()}"
+                                 th:each="statistic : ${statisticsByGroupMates}">
+                                <h4 class="list-group-item active d-flex justify-content-between align-items-center"
+                                    aria-current="true"
+                                    th:text="|Option: ${statistic.key.getTitle()}|">
+                                    Option Title
+                                </h4>
+                                <h5>Voters
+                                    <span class="badge bg-primary rounded-pill"
+                                          th:text="${statistic.value.size()}">Groupmates Count</span>
+                                </h5>
+                                <div class="list-group-item align-items-center" aria-current="true">
+                                    <h6 class="border-bottom m-0"
+                                        th:each="user : ${statistic.value}"
+                                        th:text="|${user.getFirstName()} ${user.getLastName()}|">
+                                        First and Last Name
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="list-profile" role="tabpanel"
+                             aria-labelledby="list-profile-list">
+                            <h1> Interests </h1>
+                            <div class="mt-3" th:if="${!statisticsByInterests.isEmpty()}"
+                                 th:each="statistic : ${statisticsByInterests}">
+                                <h4 class="list-group-item active d-flex justify-content-between align-items-center"
+                                    aria-current="true"
+                                    th:text="|Option: ${statistic.key.getTitle()}|">
+                                </h4>
+                                <div class="list-group-item align-items-center" aria-current="true"
+                                     th:each="interestMap : ${statistic.value}">
+                                    <h5>Voters
+                                        <span class="badge bg-primary rounded-pill"
+                                              th:text="${interestMap.value.size()}">
+                                    Same Interest Voters  Count
+                                    </span>
+                                    </h5>
+                                    <h2 class="m-1" th:text="${interestMap.key.getName()}">Interest Name</h2>
+                                    <h6 class="border-bottom m-0"
+                                        th:each="user : ${interestMap.value}"
+                                        th:text="|${user.getFirstName()} ${user.getLastName()}|">
+                                        First and Last Name
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <p class="pb-3 mb-0 small lh-sm border-bottom" th:text="|Overall vote count: ${question.getVoteCount()}|">
-            Questions Vote Count
-        </p>
-    </div>
-</div>
-
-<div class="container mt-5">
-    <h1> Group mates</h1>
-    <div class="mt-3" th:if="${!statisticsByGroupMates.isEmpty()}" th:each="statistic : ${statisticsByGroupMates}">
-        <h4 class="list-group-item active d-flex justify-content-between align-items-center" aria-current="true"
-            th:text="|Option: ${statistic.key.getTitle()}|">
-            Option Title
-        </h4>
-        <h5>Voters
-            <span class="badge bg-primary rounded-pill"
-                  th:text="${statistic.value.size()}">Groupmates Count</span>
-        </h5>
-        <div class="list-group-item align-items-center" aria-current="true">
-            <h6 class="border-bottom m-0"
-                th:each="user : ${statistic.value}"
-                th:text="|${user.getFirstName()} ${user.getLastName()}|">
-                First and Last Name
-            </h6>
-        </div>
-    </div>
-</div>
-
-<div class="container mt-5">
-    <h1> Interests </h1>
-    <div class="mt-3" th:if="${!statisticsByInterests.isEmpty()}" th:each="statistic : ${statisticsByInterests}">
-        <h4 class="list-group-item active d-flex justify-content-between align-items-center" aria-current="true"
-            th:text="|Option: ${statistic.key.getTitle()}|">
-        </h4>
-        <div class="list-group-item align-items-center" aria-current="true" th:each="interestMap : ${statistic.value}">
-            <h5>Voters
-                <span class="badge bg-primary rounded-pill"
-                      th:text="${interestMap.value.size()}">
-                    Same Interest Voters  Count
-                </span>
-            </h5>
-            <h2 class="m-1" th:text="${interestMap.key.getName()}">Interest Name</h2>
-            <h6 class="border-bottom m-0"
-                th:each="user : ${interestMap.value}"
-                th:text="|${user.getFirstName()} ${user.getLastName()}|">
-                First and Last Name
-            </h6>
-        </div>
-    </div>
-</div>
-
+</main>
+<script th:src="@{https://code.jquery.com/jquery-3.6.0.min.js}"></script>
+<script th:src="@{http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js}"></script>
+<script>
+    let triggerTabList = [].slice.call(document.querySelectorAll('#list-tab a'));
+    triggerTabList.forEach(function (triggerEl) {
+        triggerEl.addEventListener('click', function (e) {
+            e.preventDefault();
+            $(this).addClass("active");
+            $(this).siblings().removeClass("active");
+        });
+    });
+</script>
 </body>
 </html>

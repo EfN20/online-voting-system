@@ -84,18 +84,18 @@ public class MainController {
                         line =  line.trim();
                         fileWriter.write(line
                                 .replace("?", "")
-                                .replaceAll("What", "")
-                                .replaceAll("have", "")
-                                .replaceAll("with", "")
-                                .replaceAll("Why", "")
-                                .replaceAll("How", "")
-                                .replaceAll("Which", "")
-                                .replaceAll("is", "")
-                                .replaceAll("from", "")
-                                .replaceAll("are", "")
-                                .replaceAll("he", "")
-                                .replaceAll("she", "")
-                                .replaceAll("you", "")
+                                .replaceAll("\\b(Word)\\b", "")
+                                .replaceAll("\\b(have)\\b", "")
+                                .replaceAll("\\b(with)\\b", "")
+                                .replaceAll("\\b(Why)\\b", "")
+                                .replaceAll("\\b(How)\\b", "")
+                                .replaceAll("\\b(Which)\\b", "")
+                                .replaceAll("\\b(is)\\b", "")
+                                .replaceAll("\\b(from)\\b", "")
+                                .replaceAll("\\b(are)\\b", "")
+                                .replaceAll("\\b(he)\\b", "")
+                                .replaceAll("\\b(she)\\b", "")
+                                .replaceAll("\\b(you)\\b", "")
                                 .replaceAll("\\s\\s\\s", "") + "\n");
                     }
                     fileWriter.close();

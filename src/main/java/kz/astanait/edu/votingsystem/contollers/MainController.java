@@ -114,8 +114,7 @@ public class MainController {
                     Integer count = reader.nextInt();
                     if (wordAndCount.size() < 5) {
                         wordAndCount.put(word, count);
-                    }
-                    else if(wordAndCount.size() == 5) {
+                    } else if(wordAndCount.size() == 5) {
                         for (Map.Entry<String, Integer> entry : wordAndCount.entrySet()) {
                             if (entry.getValue() < count) {
                                 wordAndCount.remove(entry.getKey());

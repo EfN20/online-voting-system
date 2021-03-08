@@ -179,7 +179,7 @@ public class VotingSystemApplication {
 					List.of(user1, user2, user3, user4, user5, user6, user7)
 			);
 
-			// Set of question
+			// Set of questions
 			Question question1 = new Question("Why are you gay?",0L);
 			Option option1 = new Option("Because I am Aza",0L);
 			Option option2 = new Option("Because I am China",0L);
@@ -195,49 +195,6 @@ public class VotingSystemApplication {
 			question2.setOptions(Set.of(option5, option6, option7, option8));
 
 			questionRepository.saveAll(List.of(question1, question2));
-
-
-//			List<User> users = new ArrayList<>();
-//			Set<Option> options = new HashSet<>();
-//			List<Vote> votes = new ArrayList<>();
-//			for (int i = 0; i < 1000; i++) {
-//				User user = new User(
-//						String.format("fsdfsdfsdffsd%s", i),
-//						String.format("dsffsdfadfsdf%s", i),
-//						String.format("sdfdsffsd%s", i),
-//						String.format("sfsdf@dfsf.com%s", i),
-//						group1,
-//						18,
-//						String.format("fsdsdffsdf%s", i),
-//						userRole
-//				);
-//				Option option = new Option(String.valueOf(i), 0L);
-//				options.add(option);
-//				users.add(user);
-//				votes.add(new Vote(user, option, question2));
-//			}
-//
-//			question2.setOptions(options);
-//
-//			userRepository.saveAll(users);
-//			questionRepository.saveAll(List.of(question1, question2));
-//			voteRepository.saveAll(votes);
-
-			// Set of TEST VOTE
-//			Vote vote1 = new Vote(user2, option2, question1);
-//			Vote vote2 = new Vote(user3, option8, question2);
-//			Vote vote3 = new Vote(user2, option5, question2);
-//
-//			optionService.increaseOptionCount(option2);
-//			optionService.increaseOptionCount(option8);
-//			optionService.increaseOptionCount(option5);
-
-//			voteRepository.saveAll(List.of(vote1, vote2, vote3));
-//			List<User> users = userRepository.findUsersByInterestsContains(interest1);
-//			log.info(String.valueOf(users));
-//
-//			List<Vote> test = voteRepository.findTop5ByUserOrderByIdDesc(user2);
-//			test.forEach(vote -> log.info("\n" + vote + "\n"));
 		};
 	}
 }

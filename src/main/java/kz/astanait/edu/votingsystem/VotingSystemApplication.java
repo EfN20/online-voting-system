@@ -179,22 +179,78 @@ public class VotingSystemApplication {
 					List.of(user1, user2, user3, user4, user5, user6, user7)
 			);
 
-			// Set of questions
-			Question question1 = new Question("Why are you gay?",0L);
-			Option option1 = new Option("Because I am Aza",0L);
-			Option option2 = new Option("Because I am China",0L);
-			Option option3 = new Option("Because I am Nyrum",0L);
-			Option option4 = new Option("Because I am Madok",0L);
+			// Set of question
+			Question question1 = new Question("How you old?",0L);
+			Option option1 = new Option("12-18",0L);
+			Option option2 = new Option("18-24",0L);
+			Option option3 = new Option("24-30",0L);
+			Option option4 = new Option("Older than 30",0L);
+
 			question1.setOptions(Set.of(option1, option2, option3, option4));
 
-			Question question2 = new Question("Why are you running?",0L);
-			Option option5 = new Option("AA",0L);
-			Option option6 = new Option("AAA",0L);
-			Option option7 = new Option("AAAA",0L);
-			Option option8 = new Option("AAAAA",0L);
-			question2.setOptions(Set.of(option5, option6, option7, option8));
+			Question question2 = new Question("Choose your specialty",0L);
+			Option option5 = new Option("Software engineer",0L);
+			Option option6 = new Option("Cybersecurity",0L);
+			Option option7 = new Option("Big Data",0L);
+			question2.setOptions(Set.of(option5, option6, option7));
 
-			questionRepository.saveAll(List.of(question1, question2));
+			Question question3 = new Question("What university are you from?",0L);
+			Option option8 = new Option("AITU",0L);
+			Option option9 = new Option("NU",0L);
+			Option option10 = new Option("KBTU",0L);
+			Option option11 = new Option("Another",0L);
+			question1.setOptions(Set.of(option8, option9, option10, option11));
+
+			Question question4 = new Question("Programming experience",0L);
+			Option option12 = new Option("less than 1 year",0L);
+			Option option13 = new Option("2-3 years",0L);
+			Option option14 = new Option("more than 3 years",0L);
+			Option option15 = new Option("I haven`t experience",0L);
+			question1.setOptions(Set.of(option12, option13, option14, option15));
+
+			Question question5 = new Question("Choose your place of residence",0L);
+			Option option16 = new Option("City",0L);
+			Option option17 = new Option("Town",0L);
+			Option option18 = new Option("Village",0L);
+			question1.setOptions(Set.of(option16, option17, option18));
+
+			Question question6 = new Question("Indicate your living situation",0L);
+			Option option19 = new Option("housing (room) issued by the university",0L);
+			Option option20 = new Option("we have our own apartment",0L);
+			Option option21 = new Option("rent an apartment on my own",0L);
+			Option option22 = new Option("rent an apartment with friends",0L);
+			Option option23 = new Option("rent a room in a hostel",0L);
+			Option option24 = new Option("I live with relatives",0L);
+			question1.setOptions(Set.of(option19, option20, option21, option22, option23, option24));
+
+			Question question7 = new Question("What sources do you usually find out about how you serve in the army?",0L);
+			Option option25 = new Option("from newspapers",0L);
+			Option option26 = new Option("from the news on TV",0L);
+			Option option27 = new Option("from radio",0L);
+			Option option28 = new Option("from the Internet",0L);
+			Option option29 = new Option("from the stories of friends",0L);
+			Option option30 = new Option("I find out by chance from different sources",0L);
+			question1.setOptions(Set.of(option25, option26, option27, option28, option29, option30));
+
+			Question question8 = new Question("How do you feel about military service?",0L);
+			Option option31 = new Option("positively",0L);
+			Option option32 = new Option("neutral",0L);
+			Option option33 = new Option("negatively",0L);
+			question1.setOptions(Set.of(option31, option32, option33));
+
+			Question question9 = new Question("Do you think every man should complete military service?",0L);
+			Option option34 = new Option("Yes",0L);
+			Option option35 = new Option("No",0L);
+			Option option36 = new Option("Not everyone",0L);
+			question1.setOptions(Set.of(option34, option35, option36));
+
+			Question question10 = new Question("Are you planning to move to another country",0L);
+			Option option37 = new Option("Yes",0L);
+			Option option38 = new Option("No",0L);
+			Option option39 = new Option("No, but i considering",0L);
+			question1.setOptions(Set.of(option31, option32, option33));
+
+			questionRepository.saveAll(List.of(question1, question2, question3, question4, question5, question6, question7, question8, question9, question10));
 		};
 	}
 }

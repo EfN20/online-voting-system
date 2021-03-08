@@ -81,7 +81,9 @@ public class MainController {
                     FileWriter fileWriter = new FileWriter(questionTitles);
                     List<Question> questions = questionService.findAll();
                     for (Question questionTmp : questions) {
-                        fileWriter.write(questionTmp.getTitle()
+                        String line = questionTmp.getTitle();
+                        line =  line.trim();
+                        fileWriter.write(line
                                 .replace("?", "")
                                 .replaceAll("What", "")
                                 .replaceAll("Why", "")
@@ -91,7 +93,8 @@ public class MainController {
                                 .replaceAll("are", "")
                                 .replaceAll("he", "")
                                 .replaceAll("she", "")
-                                .replaceAll("you", "") + "\n");
+                                .replaceAll("you", "")
+                                .replaceAll("\\s\\s\\s", "") + "\n");
                     }
                     fileWriter.close();
                 }
@@ -118,6 +121,7 @@ public class MainController {
                             if (entry.getValue() < count) {
                                 wordAndCount.remove(entry.getKey());
                                 wordAndCount.put(word, count);
+                                break;
                             }
                         }
                     }
@@ -128,14 +132,14 @@ public class MainController {
                 wordAndCount.forEach((s, integer) -> {
                     log.info("[WORD] " + s + ": [COUNT] " + integer);
                 });
-                wordAndCount = wordAndCount.entrySet().stream()
-                        .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
-
-                model.addAttribute("topWords", wordAndCount);
             } catch (Exception e) {
                 log.info("[HADOOP GET]" + e.getMessage());
             }
+
+            wordAndCount = wordAndCount.entrySet().stream()
+                    .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+            model.addAttribute("topWords", wordAndCount);
             //HADOOP
         } catch (UserNotFoundException e) {
             log.info(e.getMessage());

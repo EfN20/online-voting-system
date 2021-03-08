@@ -85,10 +85,13 @@ public class MainController {
                         fileWriter.write(line
                                 .replace("?", "")
                                 .replaceAll("What", "")
+                                .replaceAll("have", "")
+                                .replaceAll("with", "")
                                 .replaceAll("Why", "")
                                 .replaceAll("How", "")
                                 .replaceAll("Which", "")
                                 .replaceAll("is", "")
+                                .replaceAll("from", "")
                                 .replaceAll("are", "")
                                 .replaceAll("he", "")
                                 .replaceAll("she", "")

@@ -24,6 +24,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -115,6 +118,28 @@ public class QuestionsController {
     @PutMapping
     public String createQuestion(@RequestParam("title") String title) {
         questionService.save(new Question(title, 0L));
+
+        // HADOOP
+        try {
+            File questionTitles = new File("src/main/java/kz/astanait/edu/votingsystem/hadoop/input/file01.txt");
+            FileWriter fileWriter = new FileWriter(questionTitles, true);
+            fileWriter.write(title
+                    .replace("?", "")
+                    .replaceAll("What", "")
+                    .replaceAll("Why", "")
+                    .replaceAll("How", "")
+                    .replaceAll("Which", "")
+                    .replaceAll("is", "")
+                    .replaceAll("are", "")
+                    .replaceAll("he", "")
+                    .replaceAll("she", "")
+                    .replaceAll("you", "") + "\n");
+            fileWriter.close();
+        } catch (IOException e) {
+            log.info("[HADOOP APPEND] " + e.getMessage());
+        }
+        // HADOOP
+
         return "redirect:/admin?success";
     }
 

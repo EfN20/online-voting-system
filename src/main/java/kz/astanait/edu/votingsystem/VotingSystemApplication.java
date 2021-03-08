@@ -196,6 +196,7 @@ public class VotingSystemApplication {
 
 			questionRepository.saveAll(List.of(question1, question2));
 
+
 //			List<User> users = new ArrayList<>();
 //			Set<Option> options = new HashSet<>();
 //			List<Vote> votes = new ArrayList<>();

@@ -16,6 +16,11 @@
     Your vote has been successfully submitted!
 </div>
 
+<div th:if="${!topWords.isEmpty()}" class="alert alert-primary w-25 mx-auto text-center">
+    <p class="my-0">Top 5 words in questions</p>
+    <p class="my-0" th:each="word : ${topWords}" th:text="|${word.getKey()}: ${word.getValue()}|">Word and Count</p>
+</div>
+
 <div>
     <div class="bd-example container">
         <div class="row  row-cols-1 row-cols-md-2 g-4">
